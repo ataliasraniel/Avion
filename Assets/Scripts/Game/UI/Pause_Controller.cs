@@ -16,6 +16,9 @@ public class Pause_Controller : MonoBehaviour
     private void Start()
     {
         pauseCanvas.enabled = false;
+        //faz com que o cursor suma enqanto estiver no jogo
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     private void Update()
     {
@@ -29,7 +32,7 @@ public class Pause_Controller : MonoBehaviour
             {
                 paused = true;
             }
-            print(paused);
+
 
         }
         ManagePause();
@@ -39,10 +42,13 @@ public class Pause_Controller : MonoBehaviour
         if (paused)
         {
             //se pausar, ativa o canvas e os botões do pause e pausa o tempo
+
             pauseCanvas.enabled = true;
             pausePanel.SetActive(true);
             pauseTitle.SetActive(true);
             Time.timeScale = 0.1f;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
 
         }
         else
@@ -52,6 +58,8 @@ public class Pause_Controller : MonoBehaviour
             pausePanel.SetActive(false);
             pauseTitle.SetActive(false);
             Time.timeScale = 1f;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
     #region interações dos botões
@@ -65,8 +73,10 @@ public class Pause_Controller : MonoBehaviour
     }
     public void Quit()
     {
-        SceneManager.LoadScene("Main Menu");
         paused = false;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        SceneManager.LoadScene("Main Menu");
     }
     #endregion
 }

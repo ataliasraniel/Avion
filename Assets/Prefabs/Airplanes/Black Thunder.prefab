@@ -485,10 +485,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7510344941254275874}
   - component: {fileID: 7559566223609024768}
-  - component: {fileID: 7618967942028610374}
   - component: {fileID: 1792261070451663176}
+  - component: {fileID: 1199833222}
   m_Layer: 0
-  m_Name: Black Thunder 1
+  m_Name: Black Thunder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -529,27 +529,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7618967942028610374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7507472036404687044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e59c5387dadf66844ae1eed2cbe1e654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  thrust: 150
-  turnTorque: {x: 45, y: 25, z: 60}
-  forceMult: 120
-  sensitivity: 1
-  aggressiveTurnAngle: 1
-  pitch: 0
-  yaw: 0
-  roll: 0
 --- !u!114 &1792261070451663176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,6 +544,28 @@ MonoBehaviour:
   heliceModel: {fileID: 5601027930933018537}
   rotationSpeed: 24
   degrees: 90
+--- !u!114 &1199833222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7507472036404687044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f54f19e26173f714696014e27590c7f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  thrust: 300
+  turnTorque: {x: 60, y: 25, z: 45}
+  forceMult: 160
+  lookAround: 0
+  actualSensitivity: 5
+  actualTurnAngle: 5
+  pitch: 0
+  yaw: 0
+  roll: 0
 --- !u!1 &9167698651678047666
 GameObject:
   m_ObjectHideFlags: 0

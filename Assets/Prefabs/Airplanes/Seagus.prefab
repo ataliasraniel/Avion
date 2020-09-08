@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2677591987786414121}
   - component: {fileID: 2736592335410158091}
-  - component: {fileID: 2643243195904311373}
   - component: {fileID: 6182825075413379651}
+  - component: {fileID: 260153895}
   m_Layer: 0
   m_Name: Seagus
   m_TagString: Untagged
@@ -54,27 +54,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2643243195904311373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2683383816767699919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e59c5387dadf66844ae1eed2cbe1e654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  thrust: 120
-  turnTorque: {x: 45, y: 25, z: 60}
-  forceMult: 120
-  sensitivity: 0
-  aggressiveTurnAngle: 0
-  pitch: 0
-  yaw: 0
-  roll: 0
 --- !u!114 &6182825075413379651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,6 +69,28 @@ MonoBehaviour:
   heliceModel: {fileID: 47415807606633634}
   rotationSpeed: 24
   degrees: 90
+--- !u!114 &260153895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2683383816767699919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f54f19e26173f714696014e27590c7f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  thrust: 100
+  turnTorque: {x: 40, y: 25, z: 30}
+  forceMult: 160
+  lookAround: 0
+  actualSensitivity: 2
+  actualTurnAngle: 2
+  pitch: 0
+  yaw: 0
+  roll: 0
 --- !u!1 &2683541484972307687
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +563,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f63ed5336167a3d46982201a7997cb89, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0

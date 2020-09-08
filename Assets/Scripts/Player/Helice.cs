@@ -15,6 +15,7 @@ public class Helice : MonoBehaviour
     private void Update()
     {
         Rotate();
+        
     }
     void Rotate()
     {
