@@ -156,7 +156,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7510344941254275874}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &7600965023160819254
 TrailRenderer:
@@ -296,7 +296,7 @@ Transform:
   m_Children:
   - {fileID: 1491104977506173891}
   m_Father: {fileID: 7510344941254275874}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &7623486045312442364
 CapsuleCollider:
@@ -367,7 +367,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7510344941254275874}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &7601183102854315782
 TrailRenderer:
@@ -506,7 +506,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7224356730880534126}
-  - {fileID: 5601027930933018537}
   - {fileID: 7510624472932084806}
   - {fileID: 7504231110174986870}
   - {fileID: 7504291975754309812}
@@ -541,9 +540,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ceb1b39f4bf2784b86419515d55a12f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heliceModel: {fileID: 5601027930933018537}
-  rotationSpeed: 24
+  heliceLow: {fileID: 8714370084887452840}
+  heliceFast: {fileID: 5601027930933018537}
+  rpm: 12
+  rpmMultiplier: 0.1
   degrees: 90
+  accelerate: 0
+  deaccelerate: 0
+  speedMultiplier: 0.1
+  reverseSpeedMultiplier: 0.3
+  pitchMultiplier: 0
+  reversePitchMultiplier: 0
+  pitchMin: 0
+  pitchMax: 0
+  rpmSFX: []
+  speedKM: 0
+  altitude: 0
+  actualRpm: 1
+  seaPos: {fileID: 0}
 --- !u!114 &1199833222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,6 +577,8 @@ MonoBehaviour:
   lookAround: 0
   actualSensitivity: 5
   actualTurnAngle: 5
+  maxSpeed: 0
+  minSpeed: 0
   pitch: 0
   yaw: 0
   roll: 0
@@ -577,7 +593,7 @@ GameObject:
   - component: {fileID: 5601027930933018537}
   - component: {fileID: 1756141126383801776}
   m_Layer: 0
-  m_Name: fast helice
+  m_Name: Helice fast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,11 +607,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9167698651678047666}
   m_LocalRotation: {x: -0, y: -0, z: -0.98908025, w: -0.14737782}
-  m_LocalPosition: {x: 0.11, y: 0.32, z: 3.11}
+  m_LocalPosition: {x: 0.11, y: 0.32000732, z: 3.11}
   m_LocalScale: {x: 1.2, y: 1.2, z: 0.099999994}
   m_Children: []
-  m_Father: {fileID: 7510344941254275874}
-  m_RootOrder: 1
+  m_Father: {fileID: 1491104977506173891}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -196.95}
 --- !u!212 &1756141126383801776
 SpriteRenderer:
@@ -712,7 +728,12 @@ PrefabInstance:
     - target: {fileID: -1201504834443579779, guid: c2b96cd72bd42ae46981542315767c2c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1201504834443579779, guid: c2b96cd72bd42ae46981542315767c2c,
+        type: 3}
+      propertyPath: m_Name
+      value: Helice low
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c2b96cd72bd42ae46981542315767c2c,
         type: 3}
@@ -724,6 +745,12 @@ PrefabInstance:
 --- !u!4 &1491104977506173891 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c2b96cd72bd42ae46981542315767c2c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1385913992122197032}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8714370084887452840 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -1453422408199423872, guid: c2b96cd72bd42ae46981542315767c2c,
     type: 3}
   m_PrefabInstance: {fileID: 1385913992122197032}
   m_PrefabAsset: {fileID: 0}

@@ -74,7 +74,7 @@ public class Player_Motor : MonoBehaviour
                 audioSource.pitch += pitchIncreaseSpeed * Time.deltaTime;   //faz com que o pitch aumente, dando a impressão de força
                 audioSource.pitch = Mathf.Clamp(audioSource.pitch, 0, maxPitch);
                 //aumenta a rotação da hélice
-                helice.rotationSpeed += Time.deltaTime;
+                helice.rpm += Time.deltaTime;
                 break;
 
             case Acceleration.desacelerating:
@@ -82,7 +82,7 @@ public class Player_Motor : MonoBehaviour
                 //faz com que o pitch diminua, diminuindo a aceleração
                 audioSource.pitch -= pitchDecreaseSpeed * Time.deltaTime;
                 audioSource.pitch = Mathf.Clamp(audioSource.pitch, 0.3f, maxPitch);
-                helice.rotationSpeed -= 1.5f * Time.deltaTime;
+                helice.rpm -= 1.5f * Time.deltaTime;
                 break;
         }
 

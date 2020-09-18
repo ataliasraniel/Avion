@@ -25,8 +25,6 @@ public class Settingsmenu : MonoBehaviour
         GetResolution();
         qualityDropdown.value = QualitySettings.GetQualityLevel();
         qualityDropdown.RefreshShownValue();
-
-
     }
 
     public void SetSFXVolume(float volume)

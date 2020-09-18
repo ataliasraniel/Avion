@@ -22,6 +22,10 @@ public class Airplane : MonoBehaviour
     private float aggressiveTurnAngle = 10f;//Angle at which airplane banks fully into target.
     public float actualTurnAngle;
 
+    [Header("Speed")]
+    public float maxSpeed;
+    public float minSpeed;
+
     [Header("Input")]
     [SerializeField] [Range(-1f, 1f)] private float pitch = 0f;
     [SerializeField] [Range(-1f, 1f)] private float yaw = 0f;
@@ -42,10 +46,12 @@ public class Airplane : MonoBehaviour
 
         if (controller == null)
             Debug.LogError(name + ": Plane - Missing reference to MouseFlightController!");
+
     }
 
     private void Update()
     {
+        thrust = Mathf.Clamp(thrust, minSpeed, maxSpeed);
         // When the player commands their own stick input, it should override what the
         // autopilot is trying to do.
         rollOverride = false;
@@ -75,6 +81,8 @@ public class Airplane : MonoBehaviour
         yaw = autoYaw;
         pitch = (pitchOverride) ? keyboardPitch : autoPitch;
         roll = (rollOverride) ? keyboardRoll : autoRoll;
+
+
     }
 
     private void RunAutopilot(Vector3 flyTarget, out float yaw, out float pitch, out float roll)
@@ -124,14 +132,6 @@ public class Airplane : MonoBehaviour
     }
     private void LookAround()
     {
-        // if (Input.GetKey(KeyCode.LeftAlt))
-        // {
-        //     lookAround = true;
-        // }
-        // else
-        // {
-        //     lookAround = false;
-        // }
         if (lookAround)
         {
             sensitivity = lookSensitivity;
