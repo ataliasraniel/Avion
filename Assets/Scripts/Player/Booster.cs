@@ -22,7 +22,7 @@ public class Booster : MonoBehaviour
     public GameObject boostParticleFX;
     public Transform[] thursters;
     private bool boostCamera;
-    private Flightcamera_Controller _flightcamera;
+    private FlightCameraController _flightcamera;
 
 
 
@@ -30,7 +30,7 @@ public class Booster : MonoBehaviour
     private void Start()
     {
         _airplane = GetComponent<Airplane>();
-        _flightcamera = FindObjectOfType<Flightcamera_Controller>();
+        _flightcamera = FindObjectOfType<FlightCameraController>();
         Gameui_Manager.instance.turboSliderCounter.maxValue = teste;
     }
 

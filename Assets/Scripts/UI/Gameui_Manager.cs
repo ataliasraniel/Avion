@@ -24,7 +24,7 @@ public class Gameui_Manager : MonoBehaviour
     public TextMeshProUGUI bulletCounter;
     public Slider turboSliderCounter;
     private GameObject player;
-    private Helice _helice;
+    private Propeller _helice;
 
     private void Awake()
     {
@@ -34,7 +34,7 @@ public class Gameui_Manager : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        _helice = player.GetComponentInChildren<Helice>();
+        _helice = player.GetComponentInChildren<Propeller>();
         turboSliderCounter.value = turboSliderCounter.maxValue;
     }
     public void ShowPopup(string messege)
