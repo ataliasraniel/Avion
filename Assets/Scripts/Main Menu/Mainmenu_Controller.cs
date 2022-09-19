@@ -31,7 +31,7 @@ public class Mainmenu_Controller : MonoBehaviour
         //abre o menu de configurações
         gameButtons.SetActive(false);
         gameTitle.SetActive(false);
-        navPanel.SetActive(false);
+        // navPanel.SetActive(false);
         settingsScreen.SetActive(true);
         graphics.SetActive(true);
         uiAnimations.Fade(1);
@@ -43,7 +43,7 @@ public class Mainmenu_Controller : MonoBehaviour
         gameButtons.SetActive(true);
         gameTitle.SetActive(true);
         settingsScreen.SetActive(false);
-        navPanel.SetActive(true);
+        // navPanel.SetActive(true);
         uiAnimations.Fade(0);
     }
     public void Confirm()

@@ -22,7 +22,7 @@ public class Player_Motor : MonoBehaviour
     public Acceleration acceleration;
 
     //[Header("Hélice")]
-    private Helice helice;
+    private Propeller helice;
 
     [Header("Audio")]
     //Controla o áudio da engine
@@ -33,7 +33,7 @@ public class Player_Motor : MonoBehaviour
 
     void Start()
     {
-        helice = GetComponent<Helice>();
+        helice = GetComponent<Propeller>();
         controller = GetComponent<CharacterController>();
     }
     void Update()
