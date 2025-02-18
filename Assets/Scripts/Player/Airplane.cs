@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Airplane : MonoBehaviour
 {
@@ -40,13 +41,16 @@ public class Airplane : MonoBehaviour
     private bool rollOverride = false;
     private bool pitchOverride = false;
 
+    private GameInputActions _inputActions;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
 
         if (controller == null)
             Debug.LogError(name + ": Plane - Missing reference to MouseFlightController!");
-
+        _inputActions = new GameInputActions();
+        _inputActions.Enable();
     }
 
     private void Update()
@@ -57,13 +61,13 @@ public class Airplane : MonoBehaviour
         rollOverride = false;
         pitchOverride = false;
 
-        float keyboardRoll = Input.GetAxis("Horizontal");
+        float keyboardRoll =_inputActions.Game.Move.ReadValue<Vector2>().x;
         if (Mathf.Abs(keyboardRoll) > .25f)
         {
             rollOverride = true;
         }
 
-        float keyboardPitch = Input.GetAxis("Vertical");
+        float keyboardPitch = _inputActions.Game.Move.ReadValue<Vector2>().y;
         if (Mathf.Abs(keyboardPitch) > .25f)
         {
             pitchOverride = true;

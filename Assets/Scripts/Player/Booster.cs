@@ -24,11 +24,13 @@ public class Booster : MonoBehaviour
     private bool boostCamera;
     private FlightCameraController _flightcamera;
 
+    private GameInputActions _inputActions;
 
 
     public float teste;
     private void Start()
-    {
+    {   _inputActions = new GameInputActions();
+        _inputActions.Enable();
         _airplane = GetComponent<Airplane>();
         _flightcamera = FindObjectOfType<FlightCameraController>();
         Gameui_Manager.instance.turboSliderCounter.maxValue = teste;
@@ -36,7 +38,7 @@ public class Booster : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canBoost)
+        if (_inputActions.Game.Boost.triggered && canBoost)
         {
             StartCoroutine(Boost());
         }

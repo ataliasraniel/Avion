@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 
 public class PlayerShootSystem : MonoBehaviour
 {
@@ -59,6 +60,8 @@ public class PlayerShootSystem : MonoBehaviour
 
     private FlightCameraController _flightCamera;
 
+  private GameInputActions _inputActions;
+
     private void Start()
     {
 
@@ -68,7 +71,9 @@ public class PlayerShootSystem : MonoBehaviour
         // rastroTiro = GetComponent<LineRenderer>();
         // gunAudio = GetComponent<AudioSource>();
         magazine = MaxMagazine;
-        _flightCamera = FindObjectOfType<FlightCameraController>();
+        _inputActions = new GameInputActions();
+    _inputActions.Enable();
+        _flightCamera = FindFirstObjectByType<FlightCameraController>();
     }
     private void Update()
     {
@@ -101,7 +106,7 @@ public class PlayerShootSystem : MonoBehaviour
     private void Shot()
     {
         //TODO: fazer o sistema de colisão com raycast e movimento 
-        if (Input.GetMouseButton(0) && Time.time > nextFire && magazine > 0 && canShot == true)
+        if (_inputActions.Game.ShootPrimary.IsPressed() && Time.time > nextFire && magazine > 0 && canShot == true)
         {
 
             magazine--;
@@ -127,7 +132,7 @@ public class PlayerShootSystem : MonoBehaviour
         }
 
 
-        if (Input.GetMouseButtonDown(0) && magazine <= 0)
+    if (_inputActions.Game.ShootPrimary.IsPressed() && magazine <= 0)
         {
             AudioManager.instance.Play("EmpytMagazine");
         }
@@ -146,9 +151,9 @@ public class PlayerShootSystem : MonoBehaviour
     private void Mirar()
     {
         //TODO: puxar a mira do camera controller
-        if (Input.GetMouseButton(1))
+        if (_inputActions.Game.Sight.IsPressed())
         { _flightCamera.StartAimCamera(); }
-        else if (Input.GetMouseButtonUp(1))
+        else if (_inputActions.Game.Sight.WasReleasedThisFrame())
         {
             _flightCamera.ResetShotCamera();
         }
@@ -162,6 +167,7 @@ public class PlayerShootSystem : MonoBehaviour
         var muzzleClone = Instantiate(muzzle,
         gunShotPos[Random.Range(0, gunShotPos.Length)].position, gunShotPos[0].rotation);
         // Destroy(muzzleClone, 1);
+        
         ShakeCamera();
 
         // yield return shotDuration;
@@ -177,7 +183,7 @@ public class PlayerShootSystem : MonoBehaviour
     }
     private void Reload()
     {
-        if (Input.GetKeyDown(KeyCode.R) && munition > 0 && magazine < MaxMagazine) //recarrega a arma e atualiza a UI
+        if (_inputActions.Game.Reload.IsPressed() && munition > 0 && magazine < MaxMagazine) //recarrega a arma e atualiza a UI
         {
             munition -= currentMagazine;
             magazine = MaxMagazine;

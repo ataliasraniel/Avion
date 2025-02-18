@@ -136,7 +136,7 @@ public class Propeller : MonoBehaviour
     void CalculateSpeed()
     {
         //calcula a velocidade do corpo em KM/h
-        speedKM = _rb.velocity.magnitude * 3.6f;
+        speedKM = _rb.linearVelocity.magnitude * 3.6f;
         speedKM = Mathf.Round(speedKM);
         Gameui_Manager.instance.SpeedCounterText(speedKM);
     }

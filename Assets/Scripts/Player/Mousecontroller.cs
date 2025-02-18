@@ -43,6 +43,7 @@ public class Mousecontroller : MonoBehaviour
     private Vector3 frozenDirection = Vector3.forward;
     private bool isMouseAimFrozen = false;
 
+    private GameInputActions _inputActions;
     /// <summary>
     /// Get a point along the aircraft's boresight projected out to aimDistance meters.
     /// Useful for drawing a crosshair to aim fixed forward guns with, or to indicate what
@@ -94,6 +95,9 @@ public class Mousecontroller : MonoBehaviour
         // When parented to something (such as an aircraft) it will inherit those
         // rotations causing unintended rotations as it gets dragged around.
         transform.parent = null;
+
+        _inputActions = new GameInputActions();
+        _inputActions.Enable();
     }
 
     private void Update()
@@ -128,8 +132,13 @@ public class Mousecontroller : MonoBehaviour
         }
 
         // Mouse input.
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = -Input.GetAxis("Mouse Y") * mouseSensitivity;
+        // float mouseX = _inputActions.Game.Look.ReadValue<Vector2>().x * mouseSensitivity;
+        float mouseX = _inputActions.Game.Look.ReadValue<Vector2>().x;
+        // float mouseY = -_inputActions.Game.Look.ReadValue<Vector2>().x;
+        float mouseY = -_inputActions.Game.Look.ReadValue<Vector2>().y;
+
+        print(mouseX);
+    print(mouseY);
 
         // Rotate the aim target that the plane is meant to fly towards.
         // Use the camera's axes in world space so that mouse motion is intuitive.

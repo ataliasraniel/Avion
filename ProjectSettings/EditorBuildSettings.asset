@@ -11,4 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 483363dc613b9df4f9fb9cd242561295
+  - enabled: 1
+    path: Assets/Widgets/Scenes/WidgetsQuickstart.unity
+    guid: 7e330e9742af6b948b7fac6cbaf1d837
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

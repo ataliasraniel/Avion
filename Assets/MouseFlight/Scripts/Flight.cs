@@ -39,7 +39,7 @@ public class Flight : MonoBehaviour
  void Start () {
  rb = gameObject.GetComponent<Rigidbody> ();//Pegar Rigidbody
 
- ArrastoOriginal = rb.drag;//Pegar Arrasto Inicial
+ ArrastoOriginal = rb.linearDamping;//Pegar Arrasto Inicial
 
  }
 
@@ -121,7 +121,7 @@ public class Flight : MonoBehaviour
 
  private void CalcularArrasto(){ //Calcular Arrasto  (Essa não é a equação original)
 
- ArrastoExtra = rb.velocity.magnitude * AumentoArrasto; //Calcular o arrastoExtra
+ ArrastoExtra = rb.linearVelocity.magnitude * AumentoArrasto; //Calcular o arrastoExtra
 
  if(Break == true){ //Se "Break" for igual a true
  Arrasto = (ArrastoOriginal + ArrastoExtra) * BreakEffect; //Calcular o arrasto com o efeito do freio("BreakEffect")
@@ -129,14 +129,14 @@ public class Flight : MonoBehaviour
  Arrasto = ArrastoOriginal + ArrastoExtra; //Arrasto é igual a "ArrastoOriginal" + "ArrastoExtra"
  }
 
- rb.drag = Arrasto;//Adicionar Arrasto
+ rb.linearDamping = Arrasto;//Adicionar Arrasto
 
  }
 
 
  private void LiftPower (){ //Calcular Sustentação
 
- LiftDirection = Vector3.Cross (rb.velocity,transform.right).normalized;//Achar vetor de Sustentação 
+ LiftDirection = Vector3.Cross (rb.linearVelocity,transform.right).normalized;//Achar vetor de Sustentação 
 
  PowerLift = (Lift * (Speed * Speed)) / 2.4f;//Calcular Força de sustentação (Essa não é a equação original)
 
