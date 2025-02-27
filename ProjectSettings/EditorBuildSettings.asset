@@ -14,5 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Widgets/Scenes/WidgetsQuickstart.unity
     guid: 7e330e9742af6b948b7fac6cbaf1d837
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 3a915debed725ed4b9c7d4f5c148cbde,
+      type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
+      guid: 035c8901a4cb5e24b97feeabab2dab47, type: 2}
   m_UseUCBPForAssetBundles: 0
