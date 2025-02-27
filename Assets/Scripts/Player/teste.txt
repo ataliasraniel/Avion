@@ -1,12 +1,13 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Airplane : MonoBehaviour
 {
   [Header("Components")]
 
-  [SerializeField] private MouseController controller = null;
+  [SerializeField] private Mousecontroller controller = null;
 
   [Header("Physics")]
   [Tooltip("Force to push plane forwards with")] public float thrust = 100f;
@@ -22,6 +23,7 @@ public class Airplane : MonoBehaviour
   private float aggressiveTurnAngle = 10f;//Angle at which airplane banks fully into target.
   public float actualTurnAngle;
 
+
   [Header("Speed")]
   public float maxSpeed;
   public float minSpeed;
@@ -30,6 +32,8 @@ public class Airplane : MonoBehaviour
   [SerializeField][Range(-1f, 1f)] private float pitch = 0f;
   [SerializeField][Range(-1f, 1f)] private float yaw = 0f;
   [SerializeField][Range(-1f, 1f)] private float roll = 0f;
+
+  public bool useMouse = true;
 
   public float Pitch { set { pitch = Mathf.Clamp(value, -1f, 1f); } get { return pitch; } }
   public float Yaw { set { yaw = Mathf.Clamp(value, -1f, 1f); } get { return yaw; } }
@@ -40,17 +44,16 @@ public class Airplane : MonoBehaviour
   private bool rollOverride = false;
   private bool pitchOverride = false;
 
-  private ControllerManager controllerManager;
-
+  private GameInputActions _inputActions;
 
   private void Awake()
   {
     rigid = GetComponent<Rigidbody>();
-    controllerManager = ControllerManager.instance;
+
     if (controller == null)
       Debug.LogError(name + ": Plane - Missing reference to MouseFlightController!");
-
-
+    _inputActions = new GameInputActions();
+    _inputActions.Enable();
   }
 
   private void Update()
@@ -60,16 +63,21 @@ public class Airplane : MonoBehaviour
     // autopilot is trying to do.
     rollOverride = false;
     pitchOverride = false;
-    float keyboardRoll = controllerManager.UseMouse ? Input.GetAxis("Horizontal") : controllerManager.inputActions.Game.Move.ReadValue<Vector2>().x;
-    // float keyboardRoll = _inputActions.Game.Move.ReadValue<Vector2>().x;
-    // float keyboardRoll = Input.GetAxis("Horizontal");
+    // float keyboardRoll = _inputActions.Game.Mouse.ReadValue<float>();
+    float keyboardRoll = _inputActions.Game.Move.ReadValue<Vector2>().x;
+    print(keyboardRoll);
+
     if (Mathf.Abs(keyboardRoll) > .25f)
     {
       rollOverride = true;
     }
-    // float keyboardPitch = _inputActions.Game.Move.ReadValue<Vector2>().y;
 
-    float keyboardPitch = controllerManager.UseMouse ? Input.GetAxis("Vertical") : controllerManager.inputActions.Game.Move.ReadValue<Vector2>().y;
+
+
+    // keyboardPitch = _inputActions.Game.Mouse.ReadValue<float>();
+
+    float keyboardPitch = _inputActions.Game.Move.ReadValue<Vector2>().y;
+
     if (Mathf.Abs(keyboardPitch) > .25f)
     {
       pitchOverride = true;

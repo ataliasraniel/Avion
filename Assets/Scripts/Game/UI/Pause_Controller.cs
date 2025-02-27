@@ -16,10 +16,12 @@ public class Pause_Controller : MonoBehaviour
   private GameObject uiCanvas;
 
   private AudioManager audioManager;
+  private ControllerManager controllerManager;
 
   private void Start()
   {
     uiCanvas = GameObject.FindGameObjectWithTag("UICanvas");
+    controllerManager = ControllerManager.instance;
     pauseCanvas.enabled = false;
     //faz com que o cursor suma enqanto estiver no jogo
     Cursor.lockState = CursorLockMode.Locked;
@@ -57,6 +59,7 @@ public class Pause_Controller : MonoBehaviour
       Cursor.lockState = CursorLockMode.None;
       audioManager.StopAllSounds();
       uiCanvas.SetActive(false);
+      controllerManager.DisableGameController();
 
     }
     else
@@ -70,9 +73,12 @@ public class Pause_Controller : MonoBehaviour
       Cursor.lockState = CursorLockMode.Locked;
       uiCanvas.SetActive(true);
       audioManager.ResumeeAllSounds();
+      controllerManager.EnableGameController();
     }
   }
   #region interações dos botões
+
+
   public void Return()
   {
     paused = false;
