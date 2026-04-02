@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MouseController : MonoBehaviour
 {
@@ -32,6 +33,10 @@ public class MouseController : MonoBehaviour
   private float mouseSensitivity = 3f;
 
   [SerializeField]
+  [Tooltip("Joystick sensitivity for the flight target")]
+  private float joystickSensitivity = 60f;
+
+  [SerializeField]
   [Tooltip("How far the boresight and mouse flight are from the aircraft")]
   private float aimDistance = 500f;
 
@@ -43,6 +48,9 @@ public class MouseController : MonoBehaviour
 
   private Vector3 frozenDirection = Vector3.forward;
   private bool isMouseAimFrozen = false;
+
+  public PlayerInput input;
+  public InputAction lookAction;
 
   private ControllerManager controllerManager;
   /// <summary>
@@ -99,6 +107,17 @@ public class MouseController : MonoBehaviour
     transform.parent = null;
   }
 
+  private void Start()
+  {
+
+  }
+
+  public void SetupInput(PlayerInput playerInput)
+  {
+    input = playerInput;
+    lookAction = input.actions["Look"];
+  }
+
   private void Update()
   {
     if (useFixed == false)
@@ -130,21 +149,23 @@ public class MouseController : MonoBehaviour
       mouseAim.forward = frozenDirection;
     }
 
-    // Mouse input.
+    // Mouse or Joystick input.
     float moveX = 0;
     float moveY = 0;
-    if (controllerManager.UseMouse)
-    {
-      moveX = Input.GetAxis("Mouse X") * mouseSensitivity;
-      moveY = -Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-    }
-    else
+    if (input != null && lookAction != null)
     {
-      // float mouseX = _inputActions.Game.Look.ReadValue<Vector2>().x * mouseSensitivity;
-      moveX = controllerManager.inputActions.Game.Look.ReadValue<Vector2>().x;
-      // float mouseY = -_inputActions.Game.Look.ReadValue<Vector2>().x;
-      moveY = -controllerManager.inputActions.Game.Look.ReadValue<Vector2>().y;
+      Vector2 lookValue = lookAction.ReadValue<Vector2>();
+      float currentSensitivity = mouseSensitivity;
+
+      // Identify if the current device is a Gamepad/Joystick
+      if (input.currentControlScheme == "Gamepad" || input.currentControlScheme == "Joystick")
+      {
+        currentSensitivity = joystickSensitivity;
+      }
+
+      moveX = lookValue.x * currentSensitivity * Time.deltaTime;
+      moveY = -lookValue.y * currentSensitivity * Time.deltaTime;
     }
 
     // Rotate the aim target that the plane is meant to fly towards.

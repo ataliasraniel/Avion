@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Airplane : MonoBehaviour
 {
@@ -40,13 +41,16 @@ public class Airplane : MonoBehaviour
   private bool rollOverride = false;
   private bool pitchOverride = false;
 
-  private ControllerManager controllerManager;
 
+  public PlayerInput input;
+  public InputAction moveAction;
 
   private void Awake()
   {
     rigid = GetComponent<Rigidbody>();
-    controllerManager = ControllerManager.instance;
+    input = GetComponent<PlayerInput>();
+    moveAction = input.actions["Move"];
+    controller.SetupInput(input);
     if (controller == null)
       Debug.LogError(name + ": Plane - Missing reference to MouseFlightController!");
 
@@ -60,16 +64,12 @@ public class Airplane : MonoBehaviour
     // autopilot is trying to do.
     rollOverride = false;
     pitchOverride = false;
-    float keyboardRoll = controllerManager.UseMouse ? Input.GetAxis("Horizontal") : controllerManager.inputActions.Game.Move.ReadValue<Vector2>().x;
-    // float keyboardRoll = _inputActions.Game.Move.ReadValue<Vector2>().x;
-    // float keyboardRoll = Input.GetAxis("Horizontal");
+    float keyboardRoll = moveAction.ReadValue<Vector2>().x;
     if (Mathf.Abs(keyboardRoll) > .25f)
     {
       rollOverride = true;
     }
-    // float keyboardPitch = _inputActions.Game.Move.ReadValue<Vector2>().y;
-
-    float keyboardPitch = controllerManager.UseMouse ? Input.GetAxis("Vertical") : controllerManager.inputActions.Game.Move.ReadValue<Vector2>().y;
+    float keyboardPitch = moveAction.ReadValue<Vector2>().y;
     if (Mathf.Abs(keyboardPitch) > .25f)
     {
       pitchOverride = true;

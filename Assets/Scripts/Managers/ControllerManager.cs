@@ -6,8 +6,7 @@ public class ControllerManager : MonoBehaviour
   //singleton class
 
   public static ControllerManager instance;
-
-  public GameInputActions inputActions;
+  public PlayerControll inputActions;
 
   [Header("Bools")]
   [SerializeField] bool _useMouse = false;
@@ -21,7 +20,7 @@ public class ControllerManager : MonoBehaviour
 
   private void Start()
   {
-    inputActions = new GameInputActions();
+    inputActions = new PlayerControll();
 
   }
 

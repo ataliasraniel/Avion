@@ -61,100 +61,102 @@ public class PlayerShootSystem : MonoBehaviour
   private FlightCameraController _flightCamera;
 
   private ControllerManager _controllerManager;
+  private PlayerInput input;
 
   private void Start()
   {
+    input = GetComponent<PlayerInput>();
 
-    // magazineCountUI = GameObject.Find("Magazine_txt").GetComponent<TextMeshProUGUI>();
-    // UpdateUI();
-    // gun = GetComponent<Transform>();
-    // rastroTiro = GetComponent<LineRenderer>();
-    // gunAudio = GetComponent<AudioSource>();
+    // Inscrevendo cada ação individualmente para garantir que o sistema de eventos registre
+    if (input != null && input.actions != null)
+    {
+      input.actions["ShootPrimary"].performed += OnShootStarted;
+      input.actions["ShootPrimary"].canceled += OnShootCanceled;
+
+      input.actions["Reload"].performed += OnReloadPerformed;
+
+      input.actions["Sight"].performed += OnSightStarted;
+      input.actions["Sight"].canceled += OnSightCanceled;
+    }
+
+    // No lugar de find global, pegamos via Airplane
+    Airplane airplane = GetComponent<Airplane>();
+    if (airplane != null)
+    {
+      // _flightCamera = airplane.cameraController;
+    }
+
+    if (_flightCamera == null)
+      _flightCamera = FindFirstObjectByType<FlightCameraController>();
+
     magazine = MaxMagazine;
     _controllerManager = ControllerManager.instance;
-    _flightCamera = FindFirstObjectByType<FlightCameraController>();
   }
+
+
+
+  private void OnDisable()
+  {
+    if (input != null && input.actions != null)
+    {
+      input.actions["ShootPrimary"].performed -= OnShootStarted;
+      input.actions["ShootPrimary"].canceled -= OnShootCanceled;
+
+      input.actions["Reload"].performed -= OnReloadPerformed;
+
+      input.actions["Sight"].performed -= OnSightStarted;
+      input.actions["Sight"].canceled -= OnSightCanceled;
+    }
+  }
+
+  private bool isShooting = false;
+
+  private void OnShootStarted(InputAction.CallbackContext context) => isShooting = true;
+  private void OnShootCanceled(InputAction.CallbackContext context) => isShooting = false;
+
+  private void OnSightStarted(InputAction.CallbackContext context) => OnSight(true);
+  private void OnSightCanceled(InputAction.CallbackContext context) => OnSight(false);
+
   private void Update()
   {
-    //target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-    Mirar();
-    Shot();
-    Reload();
-  }
-
-  private IEnumerator MagazineAFX()
-  {
-    //efeito sonoro quando recarrega
-    yield return new WaitForSeconds(0.1f);
-
-  }
-  private void ShotProjectile()
-  {
-
-    // Vector3 pos = transform.position;
-    // float distance = speed * deltaTime;
-    // if (Physics.Raycast(pos, transform.forward, out hit, distance, ~0, QueryTriggerInteraction.Ignore)
-    //     {
-    //     transform.position = hit.point;
-    //     DoCollision();
-    //     return;
-    // }
-    // trasnform.position += transform.forward * speed * deltaTime;
-
-  }
-  private void Shot()
-  {
-    //TODO: fazer o sistema de colisão com raycast e movimento 
-    if (_controllerManager.inputActions.Game.ShootPrimary.IsPressed() && Time.time > nextFire && magazine > 0 && canShot == true)
+    if (isShooting)
     {
+      HandleShotLogic();
+    }
+  }
 
+  private void OnReloadPerformed(InputAction.CallbackContext context)
+  {
+    if (munition > 0 && magazine < MaxMagazine && canShot)
+    {
+      StartCoroutine(ReloadAction());
+    }
+  }
+
+  private void OnSight(bool isPressed)
+  {
+    if (_flightCamera == null) return;
+
+    if (isPressed)
+      _flightCamera.StartAimCamera();
+    else
+      _flightCamera.ResetShotCamera();
+  }
+
+  private void HandleShotLogic()
+  {
+    print("Trying to shoot. Can shoot: " + canShot + ", Magazine: " + magazine);
+    if (Time.time > nextFire && magazine > 0 && canShot)
+    {
       magazine--;
       currentMagazine++;
       UpdateUI();
       nextFire = Time.time + fireRate;
-
       StartCoroutine(shotFX());
-
-      // if (hit)
-      // {
-      //     instancia um efeito de impacto onde o tiro atingir
-      //     Instantiate(hitFX, hit.point, Quaternion.identity);
-      //     actualDamage = Random.Range(gunMinDamage, gunMaxDamage);
-
-      //     rastroTiro.SetPosition(1, hit.point);
-      // }
-      // if (hit.rigidbody != null)
-      // {
-      //     hit.rigidbody.AddForce(-hit.normal * hitForce);
-      // }
-
     }
-
-
-    if (_controllerManager.inputActions.Game.ShootPrimary.IsPressed() && magazine <= 0)
+    else if (magazine <= 0)
     {
       AudioManager.instance.Play("EmpytMagazine");
-    }
-    // if (Input.GetMouseButtonUp(0))
-    // {
-    //     if (smoke != null)
-    //     {
-    //         float chance = Random.value;
-    //         if (chance < 0.3)
-    //         {
-    //             Instantiate(smoke, gunShotPos.position, Quaternion.identity, gunShotPos);
-    //         }
-    //     }
-    // }
-  }
-  private void Mirar()
-  {
-    //TODO: puxar a mira do camera controller
-    if (_controllerManager.inputActions.Game.Sight.IsPressed())
-    { _flightCamera.StartAimCamera(); }
-    else if (_controllerManager.inputActions.Game.Sight.WasReleasedThisFrame())
-    {
-      _flightCamera.ResetShotCamera();
     }
   }
   private IEnumerator shotFX()
@@ -182,25 +184,33 @@ public class PlayerShootSystem : MonoBehaviour
   }
   private void Reload()
   {
-    if (_controllerManager.inputActions.Game.Reload.IsPressed() && munition > 0 && magazine < MaxMagazine) //recarrega a arma e atualiza a UI
-    {
-      munition -= currentMagazine;
-      magazine = MaxMagazine;
-      currentMagazine = 0;
-      StartCoroutine(ReloadFX());
-      UpdateUI();
-    }
+    // Método agora vazio ou removido pois o Reload usa evento e Coroutine direta
   }
-  IEnumerator ReloadFX()
+
+  private IEnumerator ReloadAction()
   {
     AudioManager.instance.Play("ReloadSFX");
     canShot = false;
+
     yield return new WaitForSeconds(1.3f);
+
+    munition -= currentMagazine;
+    magazine = MaxMagazine;
+    currentMagazine = 0;
     canShot = true;
+    UpdateUI();
+  }
+
+  IEnumerator ReloadFX()
+  {
+    // Mantido apenas para compatibilidade se outros scripts chamarem, 
+    // mas o principal agora é ReloadAction
+    yield return ReloadAction();
   }
   private void UpdateUI()
   {
-    Gameui_Manager.instance.BulletCounter(magazine);
+    if (Gameui_Manager.instance != null)
+      Gameui_Manager.instance.BulletCounter(magazine);
 
   }
 }

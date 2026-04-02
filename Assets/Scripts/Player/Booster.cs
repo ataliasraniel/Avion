@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 public class Booster : MonoBehaviour
 {
   ///<summary>
@@ -27,22 +28,42 @@ public class Booster : MonoBehaviour
   private ControllerManager _controllerManager;
 
   public float teste;
+  public PlayerInput input;
   private void Start()
   {
 
+    input = GetComponent<PlayerInput>();
+    input.actions["Boost"].started += OnBoostPerformed;
+    print("boost event enabled");
     _airplane = GetComponent<Airplane>();
     _flightcamera = FindObjectOfType<FlightCameraController>();
     _controllerManager = ControllerManager.instance;
     Gameui_Manager.instance.turboSliderCounter.maxValue = teste;
+
+
+  }
+
+
+
+  private void OnDisable()
+  {
+    input.actions["Boost"].performed -= OnBoostPerformed;
+    print("boost event disabled");
   }
 
   private void Update()
   {
-    if (_controllerManager.inputActions.Game.Boost.triggered && canBoost)
+
+    TurboUI();
+  }
+
+  private void OnBoostPerformed(InputAction.CallbackContext context)
+  {
+    print("boost event performed" + canBoost);
+    if (canBoost)
     {
       StartCoroutine(Boost());
     }
-    TurboUI();
   }
 
   IEnumerator Boost()

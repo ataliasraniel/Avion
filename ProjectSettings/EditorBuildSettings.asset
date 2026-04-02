@@ -15,8 +15,12 @@ EditorBuildSettings:
     path: Assets/Widgets/Scenes/WidgetsQuickstart.unity
     guid: 7e330e9742af6b948b7fac6cbaf1d837
   m_configObjects:
+    com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: 5977e04ce115f0e448ba59c96e274c90,
+      type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 3a915debed725ed4b9c7d4f5c148cbde,
       type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
       guid: 035c8901a4cb5e24b97feeabab2dab47, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2af09e9cdf0c59640bd68af2abf473f7,
+      type: 3}
   m_UseUCBPForAssetBundles: 0
