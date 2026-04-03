@@ -93,6 +93,12 @@ public class Pause_Controller : MonoBehaviour
     Cursor.visible = true;
     Cursor.lockState = CursorLockMode.None;
     SceneManager.LoadScene("Main Menu");
+    Destroy(PlayersSession.Instance.gameObject);
+    List<GameObject> playersSelectors = new List<GameObject>(GameObject.FindGameObjectsWithTag("Selector"));
+    foreach (var selector in playersSelectors)
+    {
+      Destroy(selector);
+    }
   }
   #endregion
 }

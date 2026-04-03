@@ -1,56 +1,113 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+
+/// <summary>
+/// Gerencia a câmera do flight rig via FOV.
+/// Uma única câmera por jogador — essencial para o split screen funcionar corretamente.
+///
+///  • Mira  : reduz o FOV para dar sensação de zoom.
+///  • Boost : aumenta o FOV para sensação de velocidade.
+/// </summary>
 public class FlightCameraController : MonoBehaviour
 {
-    ///<summary>
-    //este script dará conta de todos os movimentos e alterações
-    //na câmera de voo
-    ///</summary>
+    // ─────────────────────────────────────────────────────────────
+    #region Serialized Fields
 
-    [Header("Cameras")]
-    public Camera flightCamera;
+    [Header("Camera")]
+    [Tooltip("Câmera única do flight rig.")]
+    [SerializeField] private Camera flightCamera;
 
-    [Header("Boost Camera")]
-    private float normalFov;
-    public float desiredFov;
-    public float boostLerpTime;
+    [Header("Aim FOV")]
+    [Tooltip("FOV ao mirar (zoom in).")]
+    [SerializeField] private float aimFov = 35f;
 
-    [Header("Aim")]
-    public bool aim;
-    public Transform aimCameraPosition;
-    private Vector3 defaultRigPosition;
-    public float timeBetweenSwitch = 0.2f;
-    public int aimFov = 25;
+    [Tooltip("Duração da transição de mira.")]
+    [SerializeField] private float aimTransitionTime = 0.3f;
 
+    [Tooltip("Ease da transição de mira.")]
+    [SerializeField] private Ease aimTransitionEase = Ease.OutQuad;
 
+    [Header("Boost FOV")]
+    [Tooltip("FOV durante o boost (zoom out).")]
+    [SerializeField] private float boostFov = 75f;
 
-    private void Start()
+    [Tooltip("Duração da transição de boost.")]
+    [SerializeField] private float boostLerpTime = 0.4f;
+
+    #endregion
+
+    // ─────────────────────────────────────────────────────────────
+    #region Private State
+
+    private float _defaultFov;
+    private bool  _isAiming;
+
+    #endregion
+
+    // ─────────────────────────────────────────────────────────────
+    #region Unity Lifecycle
+
+    private void Awake()
     {
-        normalFov = flightCamera.fieldOfView;
-        defaultRigPosition = flightCamera.transform.localPosition;
+        if (flightCamera != null)
+            _defaultFov = flightCamera.fieldOfView;
     }
 
-    public void StartAimCamera()
+    #endregion
+
+    // ─────────────────────────────────────────────────────────────
+    #region Public API — Aim
+
+    /// <summary>
+    /// Reduz o FOV para simular zoom de mira.
+    /// </summary>
+    public void StartAim()
     {
-        flightCamera.DOFieldOfView(aimFov, timeBetweenSwitch);
-        flightCamera.transform.DOMove(aimCameraPosition.position, timeBetweenSwitch);
+        if (_isAiming || flightCamera == null) return;
+        _isAiming = true;
+
+        flightCamera.DOKill();
+        flightCamera.DOFieldOfView(aimFov, aimTransitionTime).SetEase(aimTransitionEase);
     }
 
-    public void BoostFOV()
+    /// <summary>
+    /// Restaura o FOV padrão ao sair da mira.
+    /// </summary>
+    public void StopAim()
     {
-        flightCamera.DOFieldOfView(desiredFov, boostLerpTime);
+        if (!_isAiming || flightCamera == null) return;
+        _isAiming = false;
+
+        flightCamera.DOKill();
+        flightCamera.DOFieldOfView(_defaultFov, aimTransitionTime).SetEase(aimTransitionEase);
     }
 
-    public void ResetShotCamera()
+    #endregion
+
+    // ─────────────────────────────────────────────────────────────
+    #region Public API — Boost FOV
+
+    /// <summary>
+    /// Aumenta o FOV para sensação de velocidade (ignorado durante a mira).
+    /// </summary>
+    public void ApplyBoostFov()
     {
-        aim = false;
-        flightCamera.DOFieldOfView(60, boostLerpTime);
-        flightCamera.transform.DOLocalMove(defaultRigPosition, timeBetweenSwitch);
+        if (_isAiming || flightCamera == null) return;
+
+        flightCamera.DOKill();
+        flightCamera.DOFieldOfView(boostFov, boostLerpTime).SetEase(Ease.OutCubic);
     }
-    public void ResetFOV()
+
+    /// <summary>
+    /// Restaura o FOV padrão após o boost (ignorado durante a mira).
+    /// </summary>
+    public void ResetFlightFov()
     {
-        flightCamera.DOFieldOfView(60, boostLerpTime);
+        if (_isAiming || flightCamera == null) return;
+
+        flightCamera.DOKill();
+        flightCamera.DOFieldOfView(_defaultFov, boostLerpTime).SetEase(Ease.InCubic);
     }
+
+    #endregion
 }

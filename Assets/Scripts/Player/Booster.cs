@@ -22,10 +22,8 @@ public class Booster : MonoBehaviour
   public string boostSFXname;
   public GameObject boostParticleFX;
   public Transform[] thursters;
-  private bool boostCamera;
   private FlightCameraController _flightcamera;
 
-  private ControllerManager _controllerManager;
 
   public float teste;
   public PlayerInput input;
@@ -33,9 +31,12 @@ public class Booster : MonoBehaviour
   {
 
     _airplane = GetComponent<Airplane>();
-    _flightcamera = FindObjectOfType<FlightCameraController>();
-    _controllerManager = ControllerManager.instance;
+    _flightcamera = GetComponent<FlightCameraController>();
     Gameui_Manager.instance.turboSliderCounter.maxValue = teste;
+    if (input != null)
+    {
+      Setup(input);
+    }
 
 
   }
@@ -78,13 +79,13 @@ public class Booster : MonoBehaviour
     TurboParticle();
     FlightCameraShakeManager.instance.ShakeLow();
     //UpdateFOV();
-    _flightcamera.BoostFOV();
+    _flightcamera.ApplyBoostFov();
     //faz com que a câmera se afaste um pouco para dar a impressão de velocidade
     var thurstNormal = _airplane.thrust; //pega o número normal do thrust do avião
     _airplane.thrust += boostPower;
     yield return new WaitForSeconds(boostTime);
     //ResetFOV();
-    _flightcamera.ResetFOV();
+    _flightcamera.ResetFlightFov();
     _airplane.thrust = thurstNormal;
     yield return new WaitForSeconds(cooldown);
     canBoost = true;

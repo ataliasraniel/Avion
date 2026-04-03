@@ -58,7 +58,7 @@ public class PlayerShootSystem : MonoBehaviour
   public float randomness = 60;
   public bool fadeOut;
 
-  private FlightCameraController _flightCamera;
+  public FlightCameraController _flightCamera;
 
   public PlayerInput input;
 
@@ -72,21 +72,7 @@ public class PlayerShootSystem : MonoBehaviour
     {
       Debug.LogWarning("PlayerShootSystem: No PlayerInput assigned. Please call Setup() with a valid PlayerInput.");
     }
-    // input = GetComponent<PlayerInput>();
 
-    // // Inscrevendo cada ação individualmente para garantir que o sistema de eventos registre
-    // if (input != null && input.actions != null)
-    // {
-    //   input.actions["ShootPrimary"].performed += OnShootStarted;
-    //   input.actions["ShootPrimary"].canceled += OnShootCanceled;
-
-    //   input.actions["Reload"].performed += OnReloadPerformed;
-
-    //   input.actions["Sight"].performed += OnSightStarted;
-    //   input.actions["Sight"].canceled += OnSightCanceled;
-    // }
-
-    // No lugar de find global, pegamos via Airplane
     Airplane airplane = GetComponent<Airplane>();
     if (airplane != null)
     {
@@ -94,7 +80,7 @@ public class PlayerShootSystem : MonoBehaviour
     }
 
     if (_flightCamera == null)
-      _flightCamera = FindFirstObjectByType<FlightCameraController>();
+      _flightCamera = GetComponent<FlightCameraController>();
 
     magazine = MaxMagazine;
   }
@@ -162,9 +148,9 @@ public class PlayerShootSystem : MonoBehaviour
     if (_flightCamera == null) return;
 
     if (isPressed)
-      _flightCamera.StartAimCamera();
+      _flightCamera.StartAim();
     else
-      _flightCamera.ResetShotCamera();
+      _flightCamera.StopAim();
   }
 
   private void HandleShotLogic()

@@ -62,7 +62,7 @@ public class Mainmenu_Controller : MonoBehaviour
   public void StartGame()
   {
     settings.muteVolume();
-    SceneManager.LoadScene("Game");
+    SceneManager.LoadScene("SelectionScene");
   }
   public void Quit()
   {
