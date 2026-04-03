@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -107,13 +107,28 @@ public class MouseController : MonoBehaviour
 
   private void Start()
   {
-
+    if (input != null)
+    {
+      SetupInput(input);
+    }
+    else
+    {
+      //try to get component in
+    }
   }
 
   public void SetReferenceAirplane(Transform plane, MouseController mouseController)
   {
-
     aircraft = plane;
+
+    // Teleporta imediatamente o FlightRig para a posição do avião.
+    // Sem isso, o rig fica 1 frame na posição errada (ex: 200,200 de um Canvas desacoplado).
+    if (aircraft != null)
+    {
+      transform.position = aircraft.position;
+      transform.rotation = aircraft.rotation;
+    }
+
     print("MouseController received airplane reference: " + plane.name);
   }
 

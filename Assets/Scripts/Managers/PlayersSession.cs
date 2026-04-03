@@ -26,6 +26,7 @@ public class PlayersSession : MonoBehaviour
     public bool hasConfirmed = false;
   }
 
+
   public List<PlayerData> players = new List<PlayerData>();
 
   private void Awake()
@@ -67,34 +68,48 @@ public class PlayersSession : MonoBehaviour
   }
 
   /// <summary>
-  /// Checa se todos os players necessários confirmaram e troca de cena se sim.
+  /// Checa se todos os players que entraram (dispositivos ativos) confirmaram.
+  /// Se houver apenas 1 player e ele confirmar -> Inicia Solo.
+  /// Se houver 2 players e ambos confirmarem -> Inicia Coop.
+  /// Se houver 2 players e apenas 1 confirmou -> Aguarda o segundo.
   /// </summary>
   private void TryStartGame()
   {
+    // 1. Descobrimos quantos seletores ativos existem na cena (players que deram "Join")
+    PlayerSelector[] activeSelectors = Object.FindObjectsByType<PlayerSelector>(FindObjectsSortMode.None);
+    int totalJoinedPlayers = activeSelectors.Length;
+
+    if (totalJoinedPlayers == 0) return;
+
+    // 2. Contamos quantos desses seletores já confirmaram a escolha
     int confirmedCount = 0;
     foreach (var p in players)
+    {
       if (p.hasConfirmed) confirmedCount++;
+    }
 
-    if (confirmedCount >= requiredPlayers)
+    Debug.Log($"<color=cyan>[PlayersSession]</color> Status: {confirmedCount} de {totalJoinedPlayers} confirmaram.");
+
+    // 3. Condição: Todos que entraram devem ter confirmado (mínimo 1)
+    if (confirmedCount >= totalJoinedPlayers && totalJoinedPlayers > 0)
     {
       // Apenas AGORA desacoplamos os seletores do Canvas e os protegemos.
-      // Fazemos isso no último momento possível para garantir que ficaram visíveis durante toda a seleção.
       foreach (var p in players)
       {
         if (p.selectorObject != null)
         {
           p.selectorObject.transform.SetParent(null);
           DontDestroyOnLoad(p.selectorObject);
-          Debug.Log($"<color=green>[PlayersSession]</color> Player {p.playerIndex}: Selector desacoplado e protegido para a próxima cena.");
+          Debug.Log($"<color=green>[PlayersSession]</color> Player {p.playerIndex}: Selector protegido.");
         }
       }
 
-      Debug.Log($"<color=green>[PlayersSession]</color> Todos os {requiredPlayers} player(s) confirmaram! Carregando: '{gameSceneName}'...");
+      Debug.Log($"<color=green>[PlayersSession]</color> Todos os jogadores ativos confirmaram! Carregando: '{gameSceneName}'...");
       SceneManager.LoadScene(gameSceneName);
     }
     else
     {
-      Debug.Log($"<color=yellow>[PlayersSession]</color> Aguardando mais players... ({confirmedCount}/{requiredPlayers})");
+      Debug.Log($"<color=yellow>[PlayersSession]</color> Aguardando confirmação de todos os players conectados...");
     }
   }
 

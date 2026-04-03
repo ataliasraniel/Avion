@@ -543,6 +543,7 @@ GameObject:
   - component: {fileID: 7559566223609024768}
   - component: {fileID: 1792261070451663176}
   - component: {fileID: 1199833222}
+  - component: {fileID: 3984730474255546349}
   m_Layer: 0
   m_Name: Black Thunder
   m_TagString: Untagged
@@ -662,6 +663,19 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+--- !u!114 &3984730474255546349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7507472036404687044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6772eb736a98d3e4f91052196f5356d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerReferencesController
+  playerInput: {fileID: 0}
 --- !u!1 &9167698651678047666
 GameObject:
   m_ObjectHideFlags: 0

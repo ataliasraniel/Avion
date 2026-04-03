@@ -32,15 +32,18 @@ public class Booster : MonoBehaviour
   private void Start()
   {
 
-    input = GetComponent<PlayerInput>();
-    input.actions["Boost"].started += OnBoostPerformed;
-    print("boost event enabled");
     _airplane = GetComponent<Airplane>();
     _flightcamera = FindObjectOfType<FlightCameraController>();
     _controllerManager = ControllerManager.instance;
     Gameui_Manager.instance.turboSliderCounter.maxValue = teste;
 
 
+  }
+
+  public void Setup(PlayerInput playerInput)
+  {
+    input = playerInput;
+    input.actions["Boost"].started += OnBoostPerformed;
   }
 
 

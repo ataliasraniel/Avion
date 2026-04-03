@@ -393,7 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayersSession
   gameSceneName: Game
-  requiredPlayers: 2
+  requiredPlayers: 1
   players: []
 --- !u!1 &1193757364
 GameObject:

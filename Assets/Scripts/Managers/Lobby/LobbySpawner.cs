@@ -74,36 +74,27 @@ public class LobbySpawner : MonoBehaviour
 
     // 2. Remove qualquer PlayerInput embutido no prefab do avião
     //    para evitar que a Unity reconheça um segundo jogador e force split-screen.
-    PlayerInput embeddedInput = airplane.GetComponentInChildren<PlayerInput>();
-    if (embeddedInput != null)
+    //primeiro, adiciona o input do playerInput no PlayerReference antes de tudo para que as classes seguintes peguem desse reference.
+    PlayerReferencesController playerReferences = airplane.GetComponent<PlayerReferencesController>();
+    if (playerReferences != null)
     {
-      Destroy(embeddedInput);
-      Debug.Log($"<color=yellow>[LobbySpawner]</color> PlayerInput embutido destruído no avião do Player {playerData.playerIndex}.");
-    }
-
-    // 3. Pega os scripts de voo do avião instanciado
-    Airplane mainScript = airplane.GetComponentInChildren<Airplane>();
-    MouseController mouseController = airplane.GetComponentInChildren<MouseController>();
-
-    // 4. Usa o Setup() do Airplane que injeta input e referência ao MouseController de uma vez
-    if (mainScript != null && mouseController != null)
-    {
+      playerReferences.Setup(lobbyInput);
+      Airplane mainScript = airplane.GetComponent<Airplane>();
+      MouseController mouseController = mainScript.controller;
       mainScript.Setup(lobbyInput, mouseController);
       mouseController.SetReferenceAirplane(airplane.transform, mouseController);
-      Debug.Log($"<color=green>[LobbySpawner]</color> Input injetado no Airplane + MouseController do Player {playerData.playerIndex}.");
+      PlayerShootSystem shootSystem = airplane.GetComponent<PlayerShootSystem>();
+      Booster booster = airplane.GetComponent<Booster>();
+      booster.Setup(lobbyInput);
+      if (shootSystem != null)
+      {
+        shootSystem.Setup(lobbyInput, null);
+      }
     }
     else
     {
-      Debug.LogWarning($"[LobbySpawner] Player {playerData.playerIndex}: Airplane={mainScript != null}, MouseController={mouseController != null}");
+      Debug.LogWarning($"<color=yellow>[LobbySpawner]</color> Player {playerData.playerIndex}: PlayerReferencesController não encontrado no prefab do avião. Certifique-se de que ele existe para injetar o PlayerInput corretamente.");
     }
-
-    // 5. Injeta no Booster também, se existir
-    Booster booster = airplane.GetComponentInChildren<Booster>();
-    if (booster != null)
-    {
-      booster.input = lobbyInput;
-    }
-
     Debug.Log($"<color=green>[LobbySpawner]</color> Avião '{playerData.airplaneName}' do Player {playerData.playerIndex} spawnado em {spawnPoint.name}!");
   }
 }

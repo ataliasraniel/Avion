@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 6693431871492860972}
   - component: {fileID: 260153895}
   - component: {fileID: 1182725288}
+  - component: {fileID: 3208556799787624125}
   m_Layer: 0
   m_Name: Seagus
   m_TagString: Player
@@ -234,6 +235,19 @@ MonoBehaviour:
   vibrato: 30
   randomness: 60
   fadeOut: 0
+--- !u!114 &3208556799787624125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2683383816767699919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6772eb736a98d3e4f91052196f5356d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerReferencesController
+  playerInput: {fileID: 0}
 --- !u!1 &2683541484972307687
 GameObject:
   m_ObjectHideFlags: 0

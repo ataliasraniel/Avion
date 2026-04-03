@@ -7,7 +7,7 @@ public class Airplane : MonoBehaviour
 {
   [Header("Components")]
 
-  [SerializeField] private MouseController controller = null;
+  [SerializeField] public MouseController controller = null;
 
   [Header("Physics")]
   [Tooltip("Force to push plane forwards with")] public float thrust = 100f;
@@ -56,6 +56,7 @@ public class Airplane : MonoBehaviour
   {
     controller = mouseController;
     input = playerInput;
+    print("Airplane received PlayerInput reference: " + playerInput.name);
     moveAction = input.actions["Move"];
     controller.SetupInput(input);
     //add the input as a component to the booster script

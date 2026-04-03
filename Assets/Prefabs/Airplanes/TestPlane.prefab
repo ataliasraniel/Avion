@@ -938,9 +938,10 @@ GameObject:
   - component: {fileID: 534677238554626480}
   - component: {fileID: 6595617103264647099}
   - component: {fileID: 6595617102339232052}
-  - component: {fileID: -6994800466034069412}
+  - component: {fileID: 1887643368885205605}
+  - component: {fileID: -9116964466839006166}
   m_Layer: 0
-  m_Name: Red Velvet
+  m_Name: TestPlane
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1130,7 +1131,38 @@ MonoBehaviour:
   vibrato: 30
   randomness: 60
   fadeOut: 0
---- !u!114 &-6994800466034069412
+--- !u!114 &1887643368885205605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9130236333664329299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 79bb2e379bf365448a3f05c24eb68133,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Game
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &-9116964466839006166
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1702,6 +1734,11 @@ PrefabInstance:
       propertyPath: field of view
       value: 60.000004
       objectReference: {fileID: 0}
+    - target: {fileID: 3040871663705626547, guid: 7c1e2fa29f8dea748abebc21f50faa85,
+        type: 3}
+      propertyPath: input
+      value: 
+      objectReference: {fileID: 1887643368885205605}
     - target: {fileID: 3040871663705626547, guid: 7c1e2fa29f8dea748abebc21f50faa85,
         type: 3}
       propertyPath: aircraft

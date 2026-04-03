@@ -65,19 +65,19 @@ public class PlayerShootSystem : MonoBehaviour
 
   private void Start()
   {
-    input = GetComponent<PlayerInput>();
+    // input = GetComponent<PlayerInput>();
 
-    // Inscrevendo cada ação individualmente para garantir que o sistema de eventos registre
-    if (input != null && input.actions != null)
-    {
-      input.actions["ShootPrimary"].performed += OnShootStarted;
-      input.actions["ShootPrimary"].canceled += OnShootCanceled;
+    // // Inscrevendo cada ação individualmente para garantir que o sistema de eventos registre
+    // if (input != null && input.actions != null)
+    // {
+    //   input.actions["ShootPrimary"].performed += OnShootStarted;
+    //   input.actions["ShootPrimary"].canceled += OnShootCanceled;
 
-      input.actions["Reload"].performed += OnReloadPerformed;
+    //   input.actions["Reload"].performed += OnReloadPerformed;
 
-      input.actions["Sight"].performed += OnSightStarted;
-      input.actions["Sight"].canceled += OnSightCanceled;
-    }
+    //   input.actions["Sight"].performed += OnSightStarted;
+    //   input.actions["Sight"].canceled += OnSightCanceled;
+    // }
 
     // No lugar de find global, pegamos via Airplane
     Airplane airplane = GetComponent<Airplane>();
@@ -91,6 +91,24 @@ public class PlayerShootSystem : MonoBehaviour
 
     magazine = MaxMagazine;
     _controllerManager = ControllerManager.instance;
+  }
+
+  public void Setup(PlayerInput playerInput, FlightCameraController flightCamera)
+  {
+    input = playerInput;
+    _flightCamera = flightCamera;
+
+    // Inscreve os eventos de input
+    if (input != null && input.actions != null)
+    {
+      input.actions["ShootPrimary"].performed += OnShootStarted;
+      input.actions["ShootPrimary"].canceled += OnShootCanceled;
+
+      input.actions["Reload"].performed += OnReloadPerformed;
+
+      input.actions["Sight"].performed += OnSightStarted;
+      input.actions["Sight"].canceled += OnSightCanceled;
+    }
   }
 
 
