@@ -535,8 +535,8 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -6629797300637803691, guid: f73e0d1814f031c4da8832be0a35b237, type: 3}
-  - {fileID: -8274133419916619345, guid: f73e0d1814f031c4da8832be0a35b237, type: 3}
-  - {fileID: -2813467912831258332, guid: f73e0d1814f031c4da8832be0a35b237, type: 3}
+  - {fileID: -8851825647845958827, guid: 1edc9dff2b7452943890b5ff236651aa, type: 3}
+  - {fileID: 8556262120643298411, guid: 1edc9dff2b7452943890b5ff236651aa, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -748,153 +748,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9124540744263392693}
   m_LocalEulerAnglesHint: {x: -22.036001, y: 148, z: 6.215}
---- !u!1 &8331863657358297072
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6568664493854690665}
-  - component: {fileID: 8860281720622049390}
-  - component: {fileID: 7533141151674718922}
-  - component: {fileID: 6779121613447337860}
-  m_Layer: 0
-  m_Name: AimCamera
-  m_TagString: MainCamera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6568664493854690665
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8331863657358297072}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.0000000037215708, y: -0.000000040642227, z: 1.5125293e-16,
-    w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: -20}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 9124540744263392693}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &8860281720622049390
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8331863657358297072}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
-  m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.1
-  far clip plane: 5000
-  field of view: 60.000004
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: -1
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!114 &7533141151674718922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8331863657358297072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_AllowXRRendering: 1
-  m_AllowHDROutput: 1
-  m_UseScreenCoordOverride: 0
-  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_TaaSettings:
-    m_Quality: 3
-    m_FrameInfluence: 0.1
-    m_JitterScale: 1
-    m_MipBias: 0
-    m_VarianceClampScale: 0.9
-    m_ContrastAdaptiveSharpening: 0
-  m_Version: 2
---- !u!114 &6779121613447337860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8331863657358297072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 9af7cb1403a66f24abe6d0d7ed64ad88, type: 2}
 --- !u!1 &8368154316356682458
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,10 +1011,9 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 53.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6568664493854690665}
   - {fileID: 2427760602734300316}
   - {fileID: 8275621272829757689}
   - {fileID: 8399413159282687267}
@@ -1218,23 +1070,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propellerRotationAxis: 0
-  propeller: {fileID: 8399413159282687267}
+  propellerTransform: {fileID: 8399413159282687267}
+  rotationDegrees: 32
   rpm: 8
   maxRpm: 360
-  rpmMultiplier: 0.8
-  degrees: 90
-  accelerate: 0
-  deaccelerate: 0
-  speedMultiplier: 14
-  reverseSpeedMultiplier: 7.2
+  rpmChangeMultiplier: 50
+  thrustMultiplier: 10
+  reverseThrustMultiplier: 15
   pitchMultiplier: 0.02
   reversePitchMultiplier: 0.06
   pitchMin: -0.1
   pitchMax: 1.2
-  rpmSFX: []
+  input: {fileID: 0}
   speedKM: 0
   altitude: 0
-  actualRpm: 1
+  currentRpmPercentage: 0
+  isFast: 0
+  accelerate: 0
+  deaccelerate: 0
 --- !u!114 &534677238554626480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1334,6 +1187,7 @@ MonoBehaviour:
   vibrato: 30
   randomness: 60
   fadeOut: 0
+  _flightCamera: {fileID: 0}
   input: {fileID: 1887643368885205605}
 --- !u!114 &1887643368885205605
 MonoBehaviour:
@@ -1392,12 +1246,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlightCameraController
   flightCamera: {fileID: 8857435613773625270}
-  desiredFov: 80
+  aimFov: 18
+  aimTransitionTime: 0.3
+  aimTransitionEase: 6
+  boostFov: 75
   boostLerpTime: 1
-  aimCameraPosition: {fileID: 8678796322851592060}
-  aimFov: 25
-  transitionTime: 0.3
-  transitionEase: 6
 --- !u!1 &9130357803986801019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1810,9 +1663,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 475923812531800144, guid: 2128532b9f919d143a99efd37ca773a0,
         type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475923812531800144, guid: 2128532b9f919d143a99efd37ca773a0,
+        type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: eb1f8abc1fa9aa043b8046a60e9ffaa9, type: 2}
+      objectReference: {fileID: 1198410664246917139, guid: 1edc9dff2b7452943890b5ff236651aa,
+        type: 3}
     - target: {fileID: 974410334578518731, guid: 2128532b9f919d143a99efd37ca773a0,
         type: 3}
       propertyPath: m_Name
@@ -1908,7 +1767,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 974410334578518772, guid: 2128532b9f919d143a99efd37ca773a0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1955,7 +1815,7 @@ PrefabInstance:
     - target: {fileID: 1584551324700235710, guid: 7c1e2fa29f8dea748abebc21f50faa85,
         type: 3}
       propertyPath: field of view
-      value: 60.000004
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 3040871663705626547, guid: 7c1e2fa29f8dea748abebc21f50faa85,
         type: 3}

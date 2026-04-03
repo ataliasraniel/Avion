@@ -940,6 +940,8 @@ GameObject:
   - component: {fileID: 6595617102339232052}
   - component: {fileID: -6994800466034069412}
   - component: {fileID: 6825586545108258749}
+  - component: {fileID: 2516961444031549012}
+  - component: {fileID: -4968776687374515157}
   m_Layer: 0
   m_Name: Red Velvet
   m_TagString: Player
@@ -956,8 +958,8 @@ Transform:
   m_GameObject: {fileID: 9130236333664329299}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 53.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8275621272829757689}
@@ -1016,23 +1018,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propellerRotationAxis: 0
-  propeller: {fileID: 8399413159282687267}
+  propellerTransform: {fileID: 8399413159282687267}
+  rotationDegrees: 32
   rpm: 8
   maxRpm: 360
-  rpmMultiplier: 0.8
-  degrees: 90
-  accelerate: 0
-  deaccelerate: 0
-  speedMultiplier: 14
-  reverseSpeedMultiplier: 7.2
+  rpmChangeMultiplier: 50
+  thrustMultiplier: 10
+  reverseThrustMultiplier: 15
   pitchMultiplier: 0.02
   reversePitchMultiplier: 0.06
   pitchMin: -0.1
   pitchMax: 1.2
-  rpmSFX: []
+  input: {fileID: 0}
   speedKM: 0
   altitude: 0
-  actualRpm: 1
+  currentRpmPercentage: 0
+  isFast: 0
+  accelerate: 0
+  deaccelerate: 0
 --- !u!114 &534677238554626480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1070,13 +1073,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f54f19e26173f714696014e27590c7f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 4982603386219575227}
+  controller: {fileID: 0}
   thrust: 100
-  turnTorque: {x: 36, y: 18, z: 30}
+  turnTorque: {x: 44, y: 26, z: 48}
   forceMult: 160
   lookAround: 0
-  actualSensitivity: 2
-  actualTurnAngle: 2
+  actualSensitivity: 4
+  actualTurnAngle: 8
   maxSpeed: 120
   minSpeed: 8
   pitch: 0
@@ -1092,6 +1095,8 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  isAiManaged: 0
+  aiTargetPos: {x: 0, y: 0, z: 0}
 --- !u!114 &6595617102339232052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1113,8 +1118,8 @@ MonoBehaviour:
     m_Bits: 4294967295
   fireRate: 0.1
   magazine: 1
-  MaxMagazine: 60
-  munition: 100
+  MaxMagazine: 250
+  munition: 2000
   gunShotPos:
   - {fileID: 4664803066775235034}
   - {fileID: 8678796322851592060}
@@ -1132,6 +1137,7 @@ MonoBehaviour:
   vibrato: 30
   randomness: 60
   fadeOut: 0
+  _flightCamera: {fileID: 0}
   input: {fileID: 0}
 --- !u!114 &-6994800466034069412
 MonoBehaviour:
@@ -1159,12 +1165,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlightCameraController
   flightCamera: {fileID: 8857435613773625270}
-  aimCamera: {fileID: 0}
-  boostFov: 75
-  boostLerpTime: 0.4
   aimFov: 18
   aimTransitionTime: 0.3
   aimTransitionEase: 6
+  boostFov: 75
+  boostLerpTime: 0.4
+--- !u!136 &2516961444031549012
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9130236333664329299}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 9
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4968776687374515157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9130236333664329299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40234f4d194d9d74fa2decf2667ed5f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Destroyable_Object
+  explosion: {fileID: 860808764512395647, guid: cc4e2cb982ab5764699a2adaf44352d9,
+    type: 3}
 --- !u!1 &9130357803986801019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1821,7 +1863,7 @@ PrefabInstance:
     - target: {fileID: 1584551324700235710, guid: 7c1e2fa29f8dea748abebc21f50faa85,
         type: 3}
       propertyPath: field of view
-      value: 60.000004
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 3040871663705626547, guid: 7c1e2fa29f8dea748abebc21f50faa85,
         type: 3}

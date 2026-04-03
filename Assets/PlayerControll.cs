@@ -145,6 +145,15 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LookAround"",
+                    ""type"": ""Button"",
+                    ""id"": ""f1716e0c-3f1b-4c61-a9f1-192cbc6dc72d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -312,6 +321,28 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c0a172d9-52a4-419b-baf7-d0ec17215d6c"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""LookAround"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d308ba8a-be1a-4c3c-82f4-182f5b4e07e1"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";KeyboardMouse"",
+                    ""action"": ""LookAround"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -354,6 +385,7 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
         m_Game_Sight = m_Game.FindAction("Sight", throwIfNotFound: true);
         m_Game_Look = m_Game.FindAction("Look", throwIfNotFound: true);
         m_Game_Boost = m_Game.FindAction("Boost", throwIfNotFound: true);
+        m_Game_LookAround = m_Game.FindAction("LookAround", throwIfNotFound: true);
     }
 
     ~@PlayerControll()
@@ -440,6 +472,7 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Sight;
     private readonly InputAction m_Game_Look;
     private readonly InputAction m_Game_Boost;
+    private readonly InputAction m_Game_LookAround;
     /// <summary>
     /// Provides access to input actions defined in input action map "Game".
     /// </summary>
@@ -475,6 +508,10 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Game/Boost".
         /// </summary>
         public InputAction @Boost => m_Wrapper.m_Game_Boost;
+        /// <summary>
+        /// Provides access to the underlying input action "Game/LookAround".
+        /// </summary>
+        public InputAction @LookAround => m_Wrapper.m_Game_LookAround;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -519,6 +556,9 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
             @Boost.started += instance.OnBoost;
             @Boost.performed += instance.OnBoost;
             @Boost.canceled += instance.OnBoost;
+            @LookAround.started += instance.OnLookAround;
+            @LookAround.performed += instance.OnLookAround;
+            @LookAround.canceled += instance.OnLookAround;
         }
 
         /// <summary>
@@ -548,6 +588,9 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
             @Boost.started -= instance.OnBoost;
             @Boost.performed -= instance.OnBoost;
             @Boost.canceled -= instance.OnBoost;
+            @LookAround.started -= instance.OnLookAround;
+            @LookAround.performed -= instance.OnLookAround;
+            @LookAround.canceled -= instance.OnLookAround;
         }
 
         /// <summary>
@@ -656,5 +699,12 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBoost(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LookAround" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLookAround(InputAction.CallbackContext context);
     }
 }

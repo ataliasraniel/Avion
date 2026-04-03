@@ -85,6 +85,8 @@ public class LobbySpawner : MonoBehaviour
       mouseController.SetReferenceAirplane(airplane.transform, mouseController);
       PlayerShootSystem shootSystem = airplane.GetComponent<PlayerShootSystem>();
       Booster booster = airplane.GetComponent<Booster>();
+      Propeller propeller = airplane.GetComponent<Propeller>();
+      propeller.Setup(lobbyInput);
       booster.Setup(lobbyInput);
       if (shootSystem != null)
       {

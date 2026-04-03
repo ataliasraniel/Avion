@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -44,6 +44,13 @@ public class Airplane : MonoBehaviour
 
   public PlayerInput input;
   public InputAction moveAction;
+  private InputAction lookAroundAction;
+
+  [Header("AI Support")]
+  [Tooltip("Se verdadeiro, o avião será controlado por um script de IA em vez de input humano.")]
+  public bool isAiManaged = false;
+  [Tooltip("Posição alvo para onde a IA deseja voar.")]
+  public Vector3 aiTargetPos;
 
   private void Awake()
   {
@@ -62,11 +69,19 @@ public class Airplane : MonoBehaviour
     input = playerInput;
     print("Airplane received PlayerInput reference: " + playerInput.name);
     moveAction = input.actions["Move"];
+    lookAroundAction = input.actions["LookAround"];
     controller.SetupInput(input);
+    lookAroundAction.performed += OnLookAround;
+    lookAroundAction.canceled += OnLookAround;
     //add the input as a component to the booster script
 
   }
 
+  private void OnDisable()
+  {
+    lookAroundAction.performed -= OnLookAround;
+    lookAroundAction.canceled -= OnLookAround;
+  }
   private void Update()
   {
     thrust = Mathf.Clamp(thrust, minSpeed, maxSpeed);
@@ -80,18 +95,25 @@ public class Airplane : MonoBehaviour
       rollOverride = true;
     }
     float keyboardPitch = moveAction.ReadValue<Vector2>().y;
-    if (Mathf.Abs(keyboardPitch) > .25f)
-    {
-      pitchOverride = true;
-      rollOverride = true;
-    }
+    // if (Mathf.Abs(keyboardPitch) > .25f)
+    // {
+    //   pitchOverride = true;
+    //   rollOverride = true;
+    // }
 
     // Calculate the autopilot stick inputs.
     float autoYaw = 0f;
     float autoPitch = 0f;
     float autoRoll = 0f;
+    // Use autopilot if a controller OR AI is present.
     if (controller != null)
+    {
       RunAutopilot(controller.MouseAimPos, out autoYaw, out autoPitch, out autoRoll);
+    }
+    else if (isAiManaged)
+    {
+      RunAutopilot(aiTargetPos, out autoYaw, out autoPitch, out autoRoll);
+    }
 
     // Use either keyboard or autopilot input.
     yaw = autoYaw;
@@ -99,8 +121,21 @@ public class Airplane : MonoBehaviour
     roll = (rollOverride) ? keyboardRoll : autoRoll;
 
 
+
+
   }
 
+  private void OnLookAround(InputAction.CallbackContext context)
+  {
+    if (context.performed)
+    {
+      lookAround = true;
+    }
+    else if (context.canceled)
+    {
+      lookAround = false;
+    }
+  }
   private void RunAutopilot(Vector3 flyTarget, out float yaw, out float pitch, out float roll)
   {
     // This is my usual trick of converting the fly to position to local space.

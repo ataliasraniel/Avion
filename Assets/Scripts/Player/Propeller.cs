@@ -1,165 +1,197 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+/// <summary>
+/// Gerencia a hélice do avião: aceleração (RPM), rotação visual e som.
+/// Agora suporta PlayerInput e integra-se com o novo FlightCameraController.
+/// </summary>
 public class Propeller : MonoBehaviour
 {
-  ///<summary> 
-  ///este script dará conta da aceleração do avião, comunicando-se com
-  ///o script Airplane para acelerar a velocidade do avião
-  ///e controlar a rotação da hélice
-  ///</summary>
   public enum PropellerRotationAxis { X, Z };
-  [Header("Propeller")]
+
+  [Header("Visual Propeller")]
   public PropellerRotationAxis propellerRotationAxis;
-  public Transform propeller;
-  private bool isFast;
+  public Transform propellerTransform;
+  public float rotationDegrees = 32f;
 
-
-  [Header("Aceleração")]
-  [Range(8, 900)]
-  public float rpm = 12f;
+  [Header("RPM Settings")]
+  [Range(0, 900)] public float rpm = 12f;
   public float maxRpm = 360f;
-  public float rpmMultiplier = 0.1f;
-  public float degrees = 32f;
-  public bool accelerate;
-  public bool deaccelerate;
-  public float speedMultiplier = 0.1f;
-  public float reverseSpeedMultiplier = 0.3f;
+  public float rpmChangeMultiplier = 50f; // Multiplicador para ganho/perda de RPM
+
+  [Header("Physics & Thrust")]
+  public float thrustMultiplier = 10f;
+  public float reverseThrustMultiplier = 15f;
+
+  [Header("Audio (Engine)")]
+  public float pitchMultiplier = 0.5f;
+  public float reversePitchMultiplier = 0.8f;
+  public float pitchMin = 0.5f;
+  public float pitchMax = 2.0f;
+  private AudioSource _soundEmitter;
+
+  [Header("Input & References")]
+  public PlayerInput input;
+  private InputAction _moveAction;
   private Airplane _airplane;
+  private Rigidbody _rb;
+  private Transform _seaTransform;
+  private FlightCameraController _flightCamera;
 
-  [Header("Som")]
-  public float pitchMultiplier = 0.02f;
-  public float reversePitchMultiplier = 0.06f;
-  public float pitchMin = -0.1f;
-  public float pitchMax = 1.2f;
-  private AudioSource soundEmmiter;
-  public AudioClip[] rpmSFX;
-
-  [Header("Informações")]
+  [Header("State Info")]
   public float speedKM;
   public float altitude;
-  public float actualRpm = 1;
-  private Rigidbody _rb;
-  private Transform seaPos;
-  float health = 100;
-  string message;
+  public float currentRpmPercentage; // 0 a 100%
+  public bool isFast;
+  public bool accelerate;
+  public bool deaccelerate;
 
-
-  void Start()
+  private void Awake()
   {
-    soundEmmiter = GetComponentInChildren<AudioSource>();
-    // Gameui_Manager.instance.RpmCounterText(actualRpm);
-    // Gameui_Manager.instance.SpeedCounterText(speedKM);
-    // Gameui_Manager.instance.AltCounterText(altitude);
-    seaPos = GameObject.FindGameObjectWithTag("Ocean").GetComponent<Transform>();
-    _rb = GetComponent<Rigidbody>();
     _airplane = GetComponent<Airplane>();
+    _rb = GetComponent<Rigidbody>();
+    _soundEmitter = GetComponentInChildren<AudioSource>();
+    _flightCamera = GetComponent<FlightCameraController>();
+
+    GameObject ocean = GameObject.FindGameObjectWithTag("Ocean");
+    if (ocean != null) _seaTransform = ocean.transform;
   }
+
+  private void Start()
+  {
+    // Se o PlayerInput já estiver no objeto (ou setado via Airplane), faz o setup
+    if (input == null)
+    {
+      input = GetComponent<PlayerInput>();
+    }
+
+    if (input != null)
+    {
+      Setup(input);
+    }
+
+    // Inicializa UI
+    if (Gameui_Manager.instance != null)
+    {
+      Gameui_Manager.instance.SpeedCounterText(0);
+    }
+  }
+
+  /// <summary>
+  /// Configura o PlayerInput e as ações necessárias.
+  /// </summary>
+  public void Setup(PlayerInput playerInput)
+  {
+    input = playerInput;
+    if (input != null)
+    {
+      _moveAction = input.actions["Move"];
+    }
+  }
+
   private void Update()
   {
-
-    RPMController();
-    Rotate();
-    CalculateSpeed();
-    CalculateAltitude();
-    SpeedController();
-
+    HandleInput();
+    UpdateEngineState();
+    UpdateVisuals();
+    UpdatePhysics();
+    UpdateUI();
   }
-  void RPMController()
-  {
-    //a depender da rotação, aumentar a velocidade do avião, trocar
-    //o som da hélice e aumentar a rotação da hélice
-    soundEmmiter.pitch = Mathf.Clamp(soundEmmiter.pitch, pitchMin, pitchMax);
-    rpm = Mathf.Clamp(rpm, 1, maxRpm);
-    actualRpm = Mathf.Clamp(rpm, 0, 100);
-    if (Input.GetKey(KeyCode.W))
-    {
-      accelerate = true;
-      rpm += Time.deltaTime + rpmMultiplier;
-      actualRpm += 1 * Time.deltaTime;
-      soundEmmiter.pitch += Time.deltaTime * pitchMultiplier;
-      //faz com que o rpm seja passado para um texto
-      Gameui_Manager.instance.RpmCounterText(actualRpm);
-    }
-    else if (Input.GetKey(KeyCode.S))
-    {
-      deaccelerate = true;
-      actualRpm -= 1 * Time.deltaTime;
-      rpm -= Time.deltaTime + rpmMultiplier;
-      soundEmmiter.pitch -= Time.deltaTime * reversePitchMultiplier;
-      //faz com que o rpm seja passado para um texto
-      // Gameui_Manager.instance.RpmCounterText(actualRpm);
 
-    }
-    else
-    {
-      accelerate = false;
-      deaccelerate = false;
-    }
-    //se o rpm for maior que o limite, troca para a hélice rápida
-    if (rpm >= 30f)
-    {
-      isFast = true;
-    }
-    else
-    {
-      isFast = false;
-    }
-  }
-  void SpeedController()
+  private void HandleInput()
   {
-    //controla a velocidade do avião
+    // Se o avião estiver sob controle da IA, ignoramos o input humano.
+    if (_airplane != null && _airplane.isAiManaged) return;
+
+    float moveY = 0;
+    if (_moveAction != null)
+    {
+      // O eixo Y do Move (W/S) controla a aceleração
+      moveY = _moveAction.ReadValue<Vector2>().y;
+    }
+
+    accelerate = moveY > 0.1f;
+    deaccelerate = moveY < -0.1f;
+  }
+
+  private void UpdateEngineState()
+  {
+    // Controle de RPM baseado no input
     if (accelerate)
     {
-      _airplane.thrust += speedMultiplier * Time.deltaTime;
+      rpm += rpmChangeMultiplier * Time.deltaTime;
     }
     else if (deaccelerate)
     {
-      _airplane.thrust -= reverseSpeedMultiplier * Time.deltaTime;
-
-    }
-  }
-  void Rotate()
-  {
-    //faz com que a hélice do avião gire    
-    if (propeller == null)
-    {
-      return;
-    }
-    if (propellerRotationAxis == PropellerRotationAxis.X)
-    {
-      propeller.Rotate(new Vector3(degrees, 0, 0) * rpm * Time.deltaTime, Space.Self);
+      rpm -= rpmChangeMultiplier * 1.5f * Time.deltaTime;
     }
     else
     {
-      propeller.Rotate(new Vector3(0, 0, degrees) * rpm * Time.deltaTime, Space.Self);
+      // Decaimento natural de RPM se não estiver acelerando nem freando
+      rpm = Mathf.MoveTowards(rpm, 10f, 5f * Time.deltaTime);
     }
 
-  }
-  void CalculateSpeed()
-  {
-    //calcula a velocidade do corpo em KM/h
-    speedKM = _rb.linearVelocity.magnitude * 3.6f;
-    speedKM = Mathf.Round(speedKM);
-    // Gameui_Manager.instance.SpeedCounterText(speedKM);
-  }
-  void CalculateAltitude()
-  {
-    //calcula a velocidade em relação ao ponto 0 do mapa, o mar
-    float thisPos = transform.position.y;
-    altitude = thisPos - seaPos.position.y;
-    altitude = Mathf.Round(altitude);
-    // Gameui_Manager.instance.AltCounterText(altitude);
-  }
-  void AltitudeController()
-  {
-    //TODO: implementar a queda do avião quando ele estiver sem força
-    //1 - desligar o controle do avião colocando suas forças multiplicadoras pra baixo
-    //2 - ativar a gravidade do rigidbody
-    //3 - aumentar a massa do objeto para cair mais rápido
+    rpm = Mathf.Clamp(rpm, 0, maxRpm);
+    currentRpmPercentage = (rpm / maxRpm) * 100f;
+    isFast = rpm >= (maxRpm * 0.5f);
+
+    // Atualização do Som (Pitch)
+    if (_soundEmitter != null)
+    {
+      float targetPitch = Mathf.Lerp(pitchMin, pitchMax, rpm / maxRpm);
+      _soundEmitter.pitch = Mathf.MoveTowards(_soundEmitter.pitch, targetPitch, Time.deltaTime);
+    }
   }
 
+  private void UpdateVisuals()
+  {
+    if (propellerTransform == null) return;
 
+    // Rotação da hélice multiplicada pelo RPM atual
+    float rotationAmount = rotationDegrees * rpm * Time.deltaTime;
+
+    if (propellerRotationAxis == PropellerRotationAxis.X)
+    {
+      propellerTransform.Rotate(new Vector3(rotationAmount, 0, 0), Space.Self);
+    }
+    else
+    {
+      propellerTransform.Rotate(new Vector3(0, 0, rotationAmount), Space.Self);
+    }
+  }
+
+  private void UpdatePhysics()
+  {
+    if (_airplane == null) return;
+
+    // Modifica o thrust do avião baseado no estado da hélice
+    if (accelerate)
+    {
+      _airplane.thrust += thrustMultiplier * Time.deltaTime;
+    }
+    else if (deaccelerate)
+    {
+      _airplane.thrust -= reverseThrustMultiplier * Time.deltaTime;
+    }
+
+    // Cálculos de Telemetria
+    if (_rb != null)
+    {
+      speedKM = Mathf.Round(_rb.linearVelocity.magnitude * 3.6f);
+    }
+
+    if (_seaTransform != null)
+    {
+      altitude = Mathf.Round(transform.position.y - _seaTransform.position.y);
+    }
+  }
+
+  private void UpdateUI()
+  {
+    if (Gameui_Manager.instance == null) return;
+
+    Gameui_Manager.instance.RpmCounterText(currentRpmPercentage);
+    Gameui_Manager.instance.SpeedCounterText(speedKM);
+    Gameui_Manager.instance.AltCounterText(altitude);
+  }
 }
-

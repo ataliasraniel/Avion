@@ -47,6 +47,8 @@ GameObject:
   - component: {fileID: 1182725288}
   - component: {fileID: 3208556799787624125}
   - component: {fileID: 433417947686296905}
+  - component: {fileID: 8299703518707404973}
+  - component: {fileID: 4245172051360388240}
   m_Layer: 0
   m_Name: Seagus
   m_TagString: Player
@@ -64,7 +66,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8394674722089026135}
@@ -121,23 +123,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propellerRotationAxis: 0
-  propeller: {fileID: 0}
+  propellerTransform: {fileID: 0}
+  rotationDegrees: 32
   rpm: 12
   maxRpm: 360
-  rpmMultiplier: 0.03
-  degrees: 90
-  accelerate: 0
-  deaccelerate: 0
-  speedMultiplier: 3.6
-  reverseSpeedMultiplier: 7.2
+  rpmChangeMultiplier: 50
+  thrustMultiplier: 10
+  reverseThrustMultiplier: 15
   pitchMultiplier: 0.02
   reversePitchMultiplier: 0.06
   pitchMin: -0.1
   pitchMax: 1.2
-  rpmSFX: []
+  input: {fileID: 0}
   speedKM: 0
   altitude: 0
-  actualRpm: 1
+  currentRpmPercentage: 0
+  isFast: 0
+  accelerate: 0
+  deaccelerate: 0
 --- !u!114 &6693431871492860972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +200,8 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  isAiManaged: 0
+  aiTargetPos: {x: 0, y: 0, z: 0}
 --- !u!114 &1182725288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +242,7 @@ MonoBehaviour:
   vibrato: 30
   randomness: 60
   fadeOut: 0
+  _flightCamera: {fileID: 0}
   input: {fileID: 0}
 --- !u!114 &3208556799787624125
 MonoBehaviour:
@@ -264,12 +270,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlightCameraController
   flightCamera: {fileID: 4291687970234577350}
-  aimCamera: {fileID: 0}
-  boostFov: 18
-  boostLerpTime: 0.4
   aimFov: 18
   aimTransitionTime: 0.3
   aimTransitionEase: 6
+  boostFov: 18
+  boostLerpTime: 0.4
+--- !u!136 &8299703518707404973
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2683383816767699919}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 9
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4245172051360388240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2683383816767699919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40234f4d194d9d74fa2decf2667ed5f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Destroyable_Object
+  explosion: {fileID: 860808764512395647, guid: cc4e2cb982ab5764699a2adaf44352d9,
+    type: 3}
 --- !u!1 &2683541484972307687
 GameObject:
   m_ObjectHideFlags: 0

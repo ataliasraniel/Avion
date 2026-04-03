@@ -640,6 +640,8 @@ GameObject:
   - component: {fileID: 7541758367202058369}
   - component: {fileID: 8807999670853881858}
   - component: {fileID: 7798859074733955186}
+  - component: {fileID: 7258437391037023425}
+  - component: {fileID: 4240430552699965717}
   m_Layer: 0
   m_Name: Black Thunder
   m_TagString: Untagged
@@ -656,8 +658,8 @@ Transform:
   m_GameObject: {fileID: 7507472036404687044}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 200, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 71570681479171425}
@@ -712,23 +714,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propellerRotationAxis: 1
-  propeller: {fileID: 8714370084887452840}
+  propellerTransform: {fileID: 8714370084887452840}
+  rotationDegrees: 32
   rpm: 12
   maxRpm: 360
-  rpmMultiplier: 0.1
-  degrees: 90
-  accelerate: 0
-  deaccelerate: 0
-  speedMultiplier: 0.1
-  reverseSpeedMultiplier: 0.3
-  pitchMultiplier: 0
-  reversePitchMultiplier: 0
-  pitchMin: 0
-  pitchMax: 0
-  rpmSFX: []
+  rpmChangeMultiplier: 50
+  thrustMultiplier: 10
+  reverseThrustMultiplier: 15
+  pitchMultiplier: 0.02
+  reversePitchMultiplier: 0.06
+  pitchMin: -0.1
+  pitchMax: 1.8
+  input: {fileID: 0}
   speedKM: 0
   altitude: 0
-  actualRpm: 1
+  currentRpmPercentage: 0
+  isFast: 0
+  accelerate: 0
+  deaccelerate: 0
 --- !u!114 &1199833222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,14 +745,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 8124682650734116605}
-  thrust: 300
-  turnTorque: {x: 60, y: 25, z: 45}
+  thrust: 240
+  turnTorque: {x: 72, y: 42, z: 80}
   forceMult: 160
   lookAround: 0
-  actualSensitivity: 5
-  actualTurnAngle: 5
-  maxSpeed: 300
-  minSpeed: 120
+  actualSensitivity: 20
+  actualTurnAngle: 100
+  maxSpeed: 250
+  minSpeed: 14
   pitch: 0
   yaw: 0
   roll: 0
@@ -763,6 +766,8 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  isAiManaged: 0
+  aiTargetPos: {x: 0, y: 0, z: 0}
 --- !u!114 &3984730474255546349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,6 +865,43 @@ MonoBehaviour:
   fadeOut: 0
   _flightCamera: {fileID: 0}
   input: {fileID: 0}
+--- !u!136 &7258437391037023425
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7507472036404687044}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 9
+  m_Height: 11.862087
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: -1.7357483}
+--- !u!114 &4240430552699965717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7507472036404687044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40234f4d194d9d74fa2decf2667ed5f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Destroyable_Object
+  explosion: {fileID: 860808764512395647, guid: cc4e2cb982ab5764699a2adaf44352d9,
+    type: 3}
 --- !u!1 &9167698651678047666
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,6 +1199,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7510344941254275874}
     m_Modifications:
+    - target: {fileID: 1584551324700235710, guid: 7c1e2fa29f8dea748abebc21f50faa85,
+        type: 3}
+      propertyPath: field of view
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 1584551324700235710, guid: 7c1e2fa29f8dea748abebc21f50faa85,
         type: 3}
       propertyPath: far clip plane
