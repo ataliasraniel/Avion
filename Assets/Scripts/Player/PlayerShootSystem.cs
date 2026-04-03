@@ -60,11 +60,18 @@ public class PlayerShootSystem : MonoBehaviour
 
   private FlightCameraController _flightCamera;
 
-  private ControllerManager _controllerManager;
-  private PlayerInput input;
+  public PlayerInput input;
 
   private void Start()
   {
+    if (input != null)
+    {
+      Setup(input, _flightCamera);
+    }
+    else
+    {
+      Debug.LogWarning("PlayerShootSystem: No PlayerInput assigned. Please call Setup() with a valid PlayerInput.");
+    }
     // input = GetComponent<PlayerInput>();
 
     // // Inscrevendo cada ação individualmente para garantir que o sistema de eventos registre
@@ -90,7 +97,6 @@ public class PlayerShootSystem : MonoBehaviour
       _flightCamera = FindFirstObjectByType<FlightCameraController>();
 
     magazine = MaxMagazine;
-    _controllerManager = ControllerManager.instance;
   }
 
   public void Setup(PlayerInput playerInput, FlightCameraController flightCamera)

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AirplaneData
   airplaneName: Red Velvet
   airplaneDescription: Description here...
-  airplaneIcon: {fileID: 0}
+  airplaneIcon: {fileID: 21300000, guid: b865238c4318e0b40a1aa53672be1ac4, type: 3}
   airplanePrefab: {fileID: 9130236333664329299, guid: 5ec7f432a76ea3d43b8a0da4ab54a013,
     type: 3}
   thrust: 100

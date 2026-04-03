@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AirplaneData
   airplaneName: Deep Blue
   airplaneDescription: Description here...
-  airplaneIcon: {fileID: 0}
+  airplaneIcon: {fileID: 21300000, guid: b2b04bceb79efed47887a8111bfda8f9, type: 3}
   airplanePrefab: {fileID: 5290590143437454372, guid: fcd38f56a5b14f8418e25a8ecbe181cf,
     type: 3}
   thrust: 100

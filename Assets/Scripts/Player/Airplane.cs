@@ -48,6 +48,10 @@ public class Airplane : MonoBehaviour
   private void Awake()
   {
     rigid = GetComponent<Rigidbody>();
+    if (input != null)
+    {
+      Setup(input, controller);
+    }
 
 
   }

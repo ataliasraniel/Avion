@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AirplaneData
   airplaneName: Black Thunder
   airplaneDescription: Description here...
-  airplaneIcon: {fileID: 0}
+  airplaneIcon: {fileID: 21300000, guid: ae06c57c8e34fdf4fbbda453c0a82b82, type: 3}
   airplanePrefab: {fileID: 7507472036404687044, guid: 4551efffc2886cc41b42224461598681,
     type: 3}
   thrust: 100

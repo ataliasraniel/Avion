@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AirplaneData
   airplaneName: Sea Gus
   airplaneDescription: Description here...
-  airplaneIcon: {fileID: 0}
+  airplaneIcon: {fileID: 21300000, guid: 7775d1a4fadc722409f86c243a36397e, type: 3}
   airplanePrefab: {fileID: 2683383816767699919, guid: 3fd592c7213137c4cad36b3d530bb878,
     type: 3}
   thrust: 100

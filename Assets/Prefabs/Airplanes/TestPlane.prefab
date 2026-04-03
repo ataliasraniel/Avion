@@ -1056,7 +1056,7 @@ MonoBehaviour:
   - {fileID: 6305630798737091205}
   - {fileID: 9195829682947789450}
   teste: 10
-  input: {fileID: 0}
+  input: {fileID: 1887643368885205605}
 --- !u!114 &6595617103264647099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1081,7 +1081,7 @@ MonoBehaviour:
   pitch: 0
   yaw: 0
   roll: 0
-  input: {fileID: 0}
+  input: {fileID: 1887643368885205605}
   moveAction:
     m_Name: Move
     m_Type: 0
@@ -1131,6 +1131,7 @@ MonoBehaviour:
   vibrato: 30
   randomness: 60
   fadeOut: 0
+  input: {fileID: 1887643368885205605}
 --- !u!114 &1887643368885205605
 MonoBehaviour:
   m_ObjectHideFlags: 0
