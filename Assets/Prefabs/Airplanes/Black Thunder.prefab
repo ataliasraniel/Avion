@@ -941,7 +941,8 @@ PrefabInstance:
       value: Flight Rig
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5944133551062957289, guid: 7c1e2fa29f8dea748abebc21f50faa85, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c1e2fa29f8dea748abebc21f50faa85, type: 3}

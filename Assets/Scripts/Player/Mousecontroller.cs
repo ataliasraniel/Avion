@@ -52,7 +52,6 @@ public class MouseController : MonoBehaviour
   public PlayerInput input;
   public InputAction lookAction;
 
-  private ControllerManager controllerManager;
   /// <summary>
   /// Get a point along the aircraft's boresight projected out to aimDistance meters.
   /// Useful for drawing a crosshair to aim fixed forward guns with, or to indicate what
@@ -100,7 +99,6 @@ public class MouseController : MonoBehaviour
     if (cam == null)
       Debug.LogError(name + "MouseFlightController - No camera transform assigned!");
 
-    controllerManager = ControllerManager.instance;
     // To work correctly, the entire rig must not be parented to anything.
     // When parented to something (such as an aircraft) it will inherit those
     // rotations causing unintended rotations as it gets dragged around.

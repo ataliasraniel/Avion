@@ -1,15 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Coloque este script numa cena de jogo.
+/// Ele lê os dados do PlayersSession (que sobreviveu do Lobby) e spawna cada avião
+/// com o PlayerInput correto já injetado nos scripts de voo.
+/// </summary>
 public class LobbySpawner : MonoBehaviour
 {
   public static LobbySpawner instance;
 
-  [Header("Spawn Configuration")]
-  [Tooltip("Coloque aqui os Transforms vazios que servirão de berço para os aviões nascerem.")]
+  [Header("Spawn Points")]
+  [Tooltip("Pontos de spawn para cada player. Index 0 = P1, Index 1 = P2, etc.")]
   public Transform[] spawnPoints;
-
-  private int currentSpawnIndex = 0;
 
   private void Awake()
   {
@@ -17,58 +20,90 @@ public class LobbySpawner : MonoBehaviour
     else Destroy(gameObject);
   }
 
-  /// <summary>
-  /// Spawna o avião selecionado e o atrela à raiz do Jogador (LobbySelector root) que possui o PlayerInput.
-  /// </summary>
-  public GameObject SpawnAirplane(GameObject airplanePrefab, GameObject playerRoot)
+  private void Start()
   {
-    // 1. Desativar Split Screen no PlayerInputManager global para garantir SINGLE PLAYER no spawn
-    var pim = FindFirstObjectByType<PlayerInputManager>();
-    if (pim != null)
+    SpawnAllPlayers();
+  }
+
+  private void SpawnAllPlayers()
+  {
+    if (PlayersSession.Instance == null)
     {
-      // pim.splitScreen = false;
+      Debug.LogError("<color=red>[LobbySpawner]</color> PlayersSession não encontrado! Certifique-se de que ele existe na cena do Lobby.");
+      return;
     }
 
-    if (spawnPoints == null || spawnPoints.Length == 0)
+    var players = PlayersSession.Instance.players;
+
+    if (players == null || players.Count == 0)
     {
-      Debug.LogError("<color=red>[LobbySpawner]</color> Nenhum SpawnPoint configurado! Crie GameObjects vazios na cena e arraste para o array do Spawner.");
-      return null;
+      Debug.LogError("<color=red>[LobbySpawner]</color> Nenhum player registrado no PlayersSession!");
+      return;
     }
 
-    // Pega o ponto de spawn atual e avança o índice para não nascer um em cima do outro
-    Transform spawnPoint = spawnPoints[currentSpawnIndex % spawnPoints.Length];
-    currentSpawnIndex++;
+    for (int i = 0; i < players.Count; i++)
+    {
+      var playerData = players[i];
 
-    // Instancia a verdadeira malha mecânica do avião com suas físicas
-    GameObject airplaneInstance = Instantiate(airplanePrefab, spawnPoint.position, spawnPoint.rotation);
-    print(airplaneInstance.transform.position);
-    MouseController mouseController = GameObject.FindFirstObjectByType<MouseController>();
-    var mainScript = airplaneInstance.GetComponentInChildren<Airplane>();
-    PlayerInput lobbyInput = playerRoot.GetComponent<PlayerInput>();
-    // if (mainScript != null) mainScript.Setup(lobbyInput);
-    mouseController.SetReferenceAirplane(airplaneInstance.transform, mouseController);
-    // mainScript.
-    print("SETTED");
+      if (playerData.airplanePrefab == null)
+      {
+        Debug.LogError($"<color=red>[LobbySpawner]</color> Player {playerData.playerIndex} não tem prefab de avião registrado!");
+        continue;
+      }
 
-    // 2. Extrai o PlayerInput original validado da raiz do Lobby
+      if (playerData.playerInput == null)
+      {
+        Debug.LogError($"<color=red>[LobbySpawner]</color> Player {playerData.playerIndex} não tem PlayerInput registrado!");
+        continue;
+      }
 
-    // 3. Destrói sumariamente qualquer PlayerInput indesejado que venha embutido no prefab do Avião
-    // (Isso impede que a Unity reconheça ele como se um Jogador Extra estivesse entrando, evitando o Split)
-    PlayerInput badInput = airplaneInstance.GetComponent<PlayerInput>();
-    if (badInput != null) Destroy(badInput);
+      Transform spawnPoint = (spawnPoints != null && i < spawnPoints.Length)
+        ? spawnPoints[i]
+        : transform; // fallback: usa a própria posição do spawner
 
-    // // 4. Passamos adiante a nossa Instância original e soberana para os módulos de Voo do Avião
+      SpawnAirplane(playerData, spawnPoint);
+    }
+  }
 
+  public void SpawnAirplane(PlayersSession.PlayerData playerData, Transform spawnPoint)
+  {
+    // 1. Instancia o avião no ponto de spawn
+    GameObject airplane = Instantiate(playerData.airplanePrefab, spawnPoint.position, spawnPoint.rotation);
 
+    PlayerInput lobbyInput = playerData.playerInput;
 
-    // var boosterScript = airplaneInstance.GetComponentInChildren<Booster>();
-    // if (boosterScript != null) boosterScript.input = lobbyInput;
+    // 2. Remove qualquer PlayerInput embutido no prefab do avião
+    //    para evitar que a Unity reconheça um segundo jogador e force split-screen.
+    PlayerInput embeddedInput = airplane.GetComponentInChildren<PlayerInput>();
+    if (embeddedInput != null)
+    {
+      Destroy(embeddedInput);
+      Debug.Log($"<color=yellow>[LobbySpawner]</color> PlayerInput embutido destruído no avião do Player {playerData.playerIndex}.");
+    }
 
-    // var extMouseScript = airplaneInstance.GetComponentInChildren<MouseController>();
-    // if (extMouseScript != null) extMouseScript.input = lobbyInput;
+    // 3. Pega os scripts de voo do avião instanciado
+    Airplane mainScript = airplane.GetComponentInChildren<Airplane>();
+    MouseController mouseController = airplane.GetComponentInChildren<MouseController>();
 
+    // 4. Usa o Setup() do Airplane que injeta input e referência ao MouseController de uma vez
+    if (mainScript != null && mouseController != null)
+    {
+      mainScript.Setup(lobbyInput, mouseController);
+      mouseController.SetReferenceAirplane(airplane.transform, mouseController);
+      Debug.Log($"<color=green>[LobbySpawner]</color> Input injetado no Airplane + MouseController do Player {playerData.playerIndex}.");
+    }
+    else
+    {
+      Debug.LogWarning($"[LobbySpawner] Player {playerData.playerIndex}: Airplane={mainScript != null}, MouseController={mouseController != null}");
+    }
 
-    Debug.Log($"<color=green>[LobbySpawner]</color> Avião {airplanePrefab.name} spawnado recebendo Input diretamente do Lobby!");
-    return airplaneInstance;
+    // 5. Injeta no Booster também, se existir
+    Booster booster = airplane.GetComponentInChildren<Booster>();
+    if (booster != null)
+    {
+      booster.input = lobbyInput;
+    }
+
+    Debug.Log($"<color=green>[LobbySpawner]</color> Avião '{playerData.airplaneName}' do Player {playerData.playerIndex} spawnado em {spawnPoint.name}!");
   }
 }

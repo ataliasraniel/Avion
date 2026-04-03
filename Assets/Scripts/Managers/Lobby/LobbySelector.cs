@@ -199,17 +199,19 @@ public class LobbySelector : MonoBehaviour
     {
       hasSelected = true;
 
-      // Chama o nosso novo Spawner Central informando o prefab escolhido e enviando essa "casca" (gameObject) 
-      // pra que o avião nasça dentro dela, herdando todo o PlayerInput que nela existe!
-      if (LobbySpawner.instance != null)
+      // Registra o player e seus dispositivos na sessão persistente
+      if (PlayersSession.Instance != null && playerInput != null)
       {
-        LobbySpawner.instance.SpawnAirplane(viewData.airplaneData.airplanePrefab, this.gameObject);
-        print("injecting transform into airplane");
+        InputDevice[] devices = playerInput.user.pairedDevices.ToArray();
+        PlayersSession.Instance.AddPlayer(
+            playerInput.playerIndex,
+            devices,
+            playerInput,
+            viewData.airplaneData.airplanePrefab,
+            viewData.airplaneData.airplaneName
+        );
       }
-      else
-      {
-        Debug.LogError("LobbySpawner não encontrado na cena!");
-      }
+
 
       // A seleção foi feita. Limpa a vitrine.
       CleanUpLobby();

@@ -1067,7 +1067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f54f19e26173f714696014e27590c7f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
+  controller: {fileID: 4982603386219575227}
   thrust: 100
   turnTorque: {x: 36, y: 18, z: 30}
   forceMult: 160
@@ -1661,12 +1661,12 @@ PrefabInstance:
     - target: {fileID: 855511272062074083, guid: 7c1e2fa29f8dea748abebc21f50faa85,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 855511272062074083, guid: 7c1e2fa29f8dea748abebc21f50faa85,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 855511272062074083, guid: 7c1e2fa29f8dea748abebc21f50faa85,
         type: 3}
@@ -1749,7 +1749,8 @@ PrefabInstance:
       value: Flight Rig
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5944133551062957289, guid: 7c1e2fa29f8dea748abebc21f50faa85, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c1e2fa29f8dea748abebc21f50faa85, type: 3}
@@ -1759,6 +1760,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8004756687216910344}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4982603386219575227 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3040871663705626547, guid: 7c1e2fa29f8dea748abebc21f50faa85,
+    type: 3}
+  m_PrefabInstance: {fileID: 8004756687216910344}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a363ecfbb87835d44a3bd9eb7cdcf4dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8191340556413949295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1782,6 +1795,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flight HUD
       objectReference: {fileID: 0}
+    - target: {fileID: 4880355240714034945, guid: 0d39ab63107639b418378000d936b7b8,
+        type: 3}
+      propertyPath: mouseFlight
+      value: 
+      objectReference: {fileID: 4982603386219575227}
     - target: {fileID: 8714682859507939345, guid: 0d39ab63107639b418378000d936b7b8,
         type: 3}
       propertyPath: m_Pivot.x
