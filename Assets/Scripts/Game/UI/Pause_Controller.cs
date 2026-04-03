@@ -22,11 +22,11 @@ public class Pause_Controller : MonoBehaviour
   {
     uiCanvas = GameObject.FindGameObjectWithTag("UICanvas");
     controllerManager = ControllerManager.instance;
-    pauseCanvas.enabled = false;
+    // pauseCanvas.enabled = false;
     //faz com que o cursor suma enqanto estiver no jogo
-    Cursor.lockState = CursorLockMode.Locked;
+    // Cursor.lockState = CursorLockMode.Locked;
     audioManager = FindFirstObjectByType<AudioManager>();
-    Cursor.visible = false;
+    // Cursor.visible = false;
   }
   private void Update()
   {

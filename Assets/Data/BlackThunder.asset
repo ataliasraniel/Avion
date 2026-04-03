@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb228410f9c8ff245815f8e83297fe95, type: 3}
+  m_Name: BlackThunder
+  m_EditorClassIdentifier: Assembly-CSharp::AirplaneData
+  airplaneName: Black Thunder
+  airplaneDescription: Description here...
+  airplaneIcon: {fileID: 0}
+  airplanePrefab: {fileID: 7507472036404687044, guid: 4551efffc2886cc41b42224461598681,
+    type: 3}
+  thrust: 100
+  forceMult: 1000
+  turnTorque: {x: 90, y: 25, z: 45}
+  minSpeed: 30
+  maxSpeed: 150
+  actualSensitivity: 5
+  actualTurnAngle: 10
+  lookSensitivity: 2
+  lookTurnAngle: 4
+  rotSpeedX: 50
+  rotSpeedY: 50
+  accelerateBoost: 5
+  desacelerateBoost: 3
+  maxRpm: 360
+  rpmMultiplier: 0.1
+  propSpeedMultiplier: 0.1
+  reverseSpeedMultiplier: 0.3
+  boostPower: 600
+  boostTime: 1
+  boostCooldown: 1
+  gunMinDamage: 2
+  gunMaxDamage: 3
+  fireRate: 0.3
+  maxMagazine: 200
+  startingMunition: 1000
+  camSmoothSpeed: 5
+  mouseSensitivity: 3
+  joystickSensitivity: 60
+  aimDistance: 500

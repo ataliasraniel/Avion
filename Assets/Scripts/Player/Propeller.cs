@@ -49,9 +49,9 @@ public class Propeller : MonoBehaviour
   void Start()
   {
     soundEmmiter = GetComponentInChildren<AudioSource>();
-    Gameui_Manager.instance.RpmCounterText(actualRpm);
-    Gameui_Manager.instance.SpeedCounterText(speedKM);
-    Gameui_Manager.instance.AltCounterText(altitude);
+    // Gameui_Manager.instance.RpmCounterText(actualRpm);
+    // Gameui_Manager.instance.SpeedCounterText(speedKM);
+    // Gameui_Manager.instance.AltCounterText(altitude);
     seaPos = GameObject.FindGameObjectWithTag("Ocean").GetComponent<Transform>();
     _rb = GetComponent<Rigidbody>();
     _airplane = GetComponent<Airplane>();
@@ -89,7 +89,7 @@ public class Propeller : MonoBehaviour
       rpm -= Time.deltaTime + rpmMultiplier;
       soundEmmiter.pitch -= Time.deltaTime * reversePitchMultiplier;
       //faz com que o rpm seja passado para um texto
-      Gameui_Manager.instance.RpmCounterText(actualRpm);
+      // Gameui_Manager.instance.RpmCounterText(actualRpm);
 
     }
     else
@@ -142,7 +142,7 @@ public class Propeller : MonoBehaviour
     //calcula a velocidade do corpo em KM/h
     speedKM = _rb.linearVelocity.magnitude * 3.6f;
     speedKM = Mathf.Round(speedKM);
-    Gameui_Manager.instance.SpeedCounterText(speedKM);
+    // Gameui_Manager.instance.SpeedCounterText(speedKM);
   }
   void CalculateAltitude()
   {
@@ -150,7 +150,7 @@ public class Propeller : MonoBehaviour
     float thisPos = transform.position.y;
     altitude = thisPos - seaPos.position.y;
     altitude = Mathf.Round(altitude);
-    Gameui_Manager.instance.AltCounterText(altitude);
+    // Gameui_Manager.instance.AltCounterText(altitude);
   }
   void AltitudeController()
   {

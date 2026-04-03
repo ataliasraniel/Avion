@@ -48,12 +48,17 @@ public class Airplane : MonoBehaviour
   private void Awake()
   {
     rigid = GetComponent<Rigidbody>();
-    input = GetComponent<PlayerInput>();
+
+
+  }
+
+  public void Setup(PlayerInput playerInput, MouseController mouseController)
+  {
+    controller = mouseController;
+    input = playerInput;
     moveAction = input.actions["Move"];
     controller.SetupInput(input);
-    if (controller == null)
-      Debug.LogError(name + ": Plane - Missing reference to MouseFlightController!");
-
+    //add the input as a component to the booster script
 
   }
 

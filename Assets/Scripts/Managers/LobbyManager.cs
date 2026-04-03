@@ -1,24 +1,15 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-[RequireComponent(typeof(PlayerInputManager))]
+
 public class LobbyManager : MonoBehaviour
 {
   public static LobbyManager instance;
 
-  public PlayerInputManager playerInputManager;
-
-
   private void Awake()
   {
     instance = this;
-    playerInputManager = GetComponent<PlayerInputManager>();
   }
 
-  public void OnPlayerJoined(PlayerInput playerInput)
-  {
-    Debug.Log("Player Joined: " + playerInput.playerIndex);
-
-
-  }
-
+  // A lógica de gerenciar players e split screens não ocorrerá mais centralizadamente
+  // pelo PlayerInput nesse script, visto que cada jogador instanciará
+  // seu próprio prefab gerindo seu próprio ciclo de vida a partir de agora.
 }

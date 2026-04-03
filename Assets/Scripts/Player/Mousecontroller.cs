@@ -112,6 +112,13 @@ public class MouseController : MonoBehaviour
 
   }
 
+  public void SetReferenceAirplane(Transform plane, MouseController mouseController)
+  {
+
+    aircraft = plane;
+    print("MouseController received airplane reference: " + plane.name);
+  }
+
   public void SetupInput(PlayerInput playerInput)
   {
     input = playerInput;

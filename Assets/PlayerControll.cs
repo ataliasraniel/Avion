@@ -162,10 +162,10 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""c5463617-fb14-4dbb-b6fa-f8aa132a6470"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";KeyboardMouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -173,10 +173,10 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""039cea03-fd7a-4085-b780-59b5c4230837"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";KeyboardMouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -184,10 +184,10 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""22f4bd78-aeba-4d26-9147-e7e1ea639d60"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";KeyboardMouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -195,10 +195,10 @@ public partial class @PlayerControll: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""93833831-6f75-48ff-b9d6-9b0022dd546f"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";KeyboardMouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
