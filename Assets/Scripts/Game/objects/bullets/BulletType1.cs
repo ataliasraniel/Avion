@@ -1,23 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletType1 : MonoBehaviour
 {
-    public float moveSpeed;
+    public float moveSpeed = 100f;
+    public float damage = 5f;
+
     private void Start()
     {
-        Destroy(gameObject, 1);
-    }
-    private void FixedUpdate()
-    {
-        transform.position += transform.forward * Time.deltaTime * moveSpeed;
-    }
-    //colisão do tiro
-    private void OnColisionEnter(Collider other)
-    {
-        print(other.transform.name);
-        Destroy(this.gameObject);
+        // Limite de vida do projétil para não pesar na memória
+        Destroy(gameObject, 2f);
     }
 
+    private void FixedUpdate()
+    {
+        // Avança o projétil baseado no eixo forward
+        transform.position += transform.forward * Time.fixedDeltaTime * moveSpeed;
+    }
 }

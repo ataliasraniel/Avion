@@ -37,6 +37,27 @@ public class FlightCameraController : MonoBehaviour
     #endregion
 
     // ─────────────────────────────────────────────────────────────
+    #region Public API — Camera Effects
+
+    /// <summary>
+    /// Aplica um tremor de câmera (Shake) via Rotação.
+    /// Útil para tiros, explosões ou tontura ao levar dano.
+    /// </summary>
+    /// <param name="duration">Duração em segundos.</param>
+    /// <param name="strength">Força/Intensidade da rotação.</param>
+    /// <param name="vibrato">Frequência do tremor.</param>
+    public void Shake(float duration, float strength, int vibrato = 10)
+    {
+        if (flightCamera == null) return;
+
+        // Interrompe qualquer shake anterior para não acumular estranhamente
+        flightCamera.transform.DOComplete();
+        flightCamera.transform.DOShakeRotation(duration, strength, vibrato);
+    }
+
+    #endregion
+
+    // ─────────────────────────────────────────────────────────────
     #region Private State
 
     private float _defaultFov;

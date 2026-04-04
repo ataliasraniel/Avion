@@ -31,6 +31,7 @@ public class Airplane : MonoBehaviour
   [SerializeField][Range(-1f, 1f)] private float pitch = 0f;
   [SerializeField][Range(-1f, 1f)] private float yaw = 0f;
   [SerializeField][Range(-1f, 1f)] private float roll = 0f;
+  public bool usePitch = false;
 
   public float Pitch { set { pitch = Mathf.Clamp(value, -1f, 1f); } get { return pitch; } }
   public float Yaw { set { yaw = Mathf.Clamp(value, -1f, 1f); } get { return yaw; } }
@@ -95,11 +96,12 @@ public class Airplane : MonoBehaviour
       rollOverride = true;
     }
     float keyboardPitch = moveAction.ReadValue<Vector2>().y;
-    // if (Mathf.Abs(keyboardPitch) > .25f)
-    // {
-    //   pitchOverride = true;
-    //   rollOverride = true;
-    // }
+
+    if (usePitch && Mathf.Abs(keyboardPitch) > .25f)
+    {
+      pitchOverride = true;
+      rollOverride = true;
+    }
 
     // Calculate the autopilot stick inputs.
     float autoYaw = 0f;

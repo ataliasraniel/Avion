@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -59,6 +59,8 @@ public class PlayerShootSystem : MonoBehaviour
   public bool fadeOut;
 
   public FlightCameraController _flightCamera;
+  private Gameui_Manager _gameui_Manager;
+
 
   public PlayerInput input;
 
@@ -72,6 +74,9 @@ public class PlayerShootSystem : MonoBehaviour
     {
       Debug.LogWarning("PlayerShootSystem: No PlayerInput assigned. Please call Setup() with a valid PlayerInput.");
     }
+
+    _gameui_Manager = GetComponentInChildren<Gameui_Manager>();
+
 
     Airplane airplane = GetComponent<Airplane>();
     if (airplane != null)
@@ -155,7 +160,6 @@ public class PlayerShootSystem : MonoBehaviour
 
   private void HandleShotLogic()
   {
-    print("Trying to shoot. Can shoot: " + canShot + ", Magazine: " + magazine);
     if (Time.time > nextFire && magazine > 0 && canShot)
     {
       magazine--;
@@ -189,8 +193,9 @@ public class PlayerShootSystem : MonoBehaviour
   }
   private void ShakeCamera()
   {
-    FlightCameraShakeManager.instance.CustomShake(duration, strength, vibrato,
-    randomness, fadeOut);
+    // Usando o novo método fácil do FlightCameraController com rotação e vibrato
+    if (_flightCamera != null)
+      _flightCamera.Shake(duration, strength, vibrato);
   }
   private void Reload()
   {
@@ -219,9 +224,8 @@ public class PlayerShootSystem : MonoBehaviour
   }
   private void UpdateUI()
   {
-    if (Gameui_Manager.instance != null)
-      Gameui_Manager.instance.BulletCounter(magazine);
-
+    if (_gameui_Manager == null) return;
+    _gameui_Manager.BulletCounter(magazine);
   }
 }
 

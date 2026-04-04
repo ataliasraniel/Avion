@@ -36,14 +36,34 @@ public class Flight_Hud : MonoBehaviour
   {
     if (boresight != null)
     {
-      boresight.position = playerCam.WorldToScreenPoint(controller.BoresightPos);
-      boresight.gameObject.SetActive(boresight.position.z > 1f);
+      // boresight.position = playerCam.WorldToScreenPoint(controller.BoresightPos);
+      // boresight.gameObject.SetActive(boresight.position.z > 1f);
+      Vector2 screenPoint = playerCam.WorldToScreenPoint(controller.BoresightPos);
+
+      RectTransformUtility.ScreenPointToLocalPointInRectangle(
+          boresight.parent as RectTransform,
+          screenPoint,
+          playerCam,
+          out Vector2 localPoint
+      );
+
+      boresight.localPosition = localPoint;
     }
 
     if (mousePos != null)
     {
-      mousePos.position = playerCam.WorldToScreenPoint(controller.MouseAimPos);
-      mousePos.gameObject.SetActive(mousePos.position.z > 1f);
+      // mousePos.position = playerCam.WorldToScreenPoint(controller.MouseAimPos);
+      // mousePos.gameObject.SetActive(mousePos.position.z > 1f);
+      Vector2 screenPoint = playerCam.WorldToScreenPoint(controller.MouseAimPos);
+
+      RectTransformUtility.ScreenPointToLocalPointInRectangle(
+          mousePos.parent as RectTransform,
+          screenPoint,
+          playerCam,
+          out Vector2 localPoint
+      );
+
+      mousePos.localPosition = localPoint;
     }
   }
 

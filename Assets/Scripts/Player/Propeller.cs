@@ -46,6 +46,9 @@ public class Propeller : MonoBehaviour
   public bool accelerate;
   public bool deaccelerate;
 
+  private Gameui_Manager _gameui_Manager;
+
+
   private void Awake()
   {
     _airplane = GetComponent<Airplane>();
@@ -71,9 +74,10 @@ public class Propeller : MonoBehaviour
     }
 
     // Inicializa UI
-    if (Gameui_Manager.instance != null)
+    _gameui_Manager = GetComponentInChildren<Gameui_Manager>();
+    if (_gameui_Manager != null)
     {
-      Gameui_Manager.instance.SpeedCounterText(0);
+      _gameui_Manager.SpeedCounterText(0);
     }
   }
 
@@ -188,10 +192,10 @@ public class Propeller : MonoBehaviour
 
   private void UpdateUI()
   {
-    if (Gameui_Manager.instance == null) return;
+    if (_gameui_Manager == null) return;
 
-    Gameui_Manager.instance.RpmCounterText(currentRpmPercentage);
-    Gameui_Manager.instance.SpeedCounterText(speedKM);
-    Gameui_Manager.instance.AltCounterText(altitude);
+    _gameui_Manager.RpmCounterText(currentRpmPercentage);
+    _gameui_Manager.SpeedCounterText(speedKM);
+    _gameui_Manager.AltCounterText(altitude);
   }
 }

@@ -820,11 +820,12 @@ GameObject:
   - component: {fileID: 6637409191220188828}
   - component: {fileID: 7415537373085104587}
   - component: {fileID: 2880990112287233067}
-  - component: {fileID: 1743204831541803490}
   - component: {fileID: 1145269044931356603}
+  - component: {fileID: -1764933261511367261}
+  - component: {fileID: 2272495710001622294}
   m_Layer: 0
   m_Name: EnemyThunder
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -922,8 +923,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
-  thrust: 200
-  turnTorque: {x: 72, y: 42, z: 80}
+  thrust: 100
+  turnTorque: {x: 144, y: 84, z: 160}
   forceMult: 160
   lookAround: 0
   actualSensitivity: 5
@@ -933,6 +934,7 @@ MonoBehaviour:
   pitch: 0
   yaw: 0
   roll: 0
+  usePitch: 0
   input: {fileID: 0}
   moveAction:
     m_Name: Move
@@ -1034,20 +1036,6 @@ CapsuleCollider:
   m_Height: 11.862087
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: -1.7357483}
---- !u!114 &1743204831541803490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7106043731630451775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40234f4d194d9d74fa2decf2667ed5f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Destroyable_Object
-  explosion: {fileID: 860808764512395647, guid: cc4e2cb982ab5764699a2adaf44352d9,
-    type: 3}
 --- !u!114 &1145269044931356603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1067,6 +1055,43 @@ MonoBehaviour:
   targetReachThreshold: 50
   cruiseThrust: 100
   showGizmos: 1
+--- !u!114 &-1764933261511367261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7106043731630451775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b68a81607d1c7bf4e9bb1f9fe39872d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AirplaneLifeSystem
+  maxHealth: 10
+  currentHealth: 0
+  isDead: 0
+  wingHealth: 30
+  engineHealth: 40
+  tailHealth: 30
+  destroyY: -10
+  explosionFX: {fileID: 860808764512395647, guid: cc4e2cb982ab5764699a2adaf44352d9,
+    type: 3}
+  visualModel: {fileID: 4781586512977186315}
+  deathSpinSpeed: 300
+--- !u!114 &2272495710001622294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7106043731630451775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a812bdc9ba812b84aa6645f3c19c7760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AirplanePartHitbox
+  partType: 4
+  _mainSystem: {fileID: -1764933261511367261}
 --- !u!1 &7678689867101509047
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,7 +1199,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8213563498317450823
 Transform:
   m_ObjectHideFlags: 0

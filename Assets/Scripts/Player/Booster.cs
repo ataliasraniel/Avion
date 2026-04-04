@@ -23,16 +23,17 @@ public class Booster : MonoBehaviour
   public GameObject boostParticleFX;
   public Transform[] thursters;
   private FlightCameraController _flightcamera;
+  private Gameui_Manager _gameui_Manager;
 
 
   public float teste;
   public PlayerInput input;
   private void Start()
   {
-
+    _gameui_Manager = GetComponentInChildren<Gameui_Manager>();
     _airplane = GetComponent<Airplane>();
     _flightcamera = GetComponent<FlightCameraController>();
-    Gameui_Manager.instance.turboSliderCounter.maxValue = teste;
+    _gameui_Manager.turboSliderCounter.maxValue = teste;
     if (input != null)
     {
       Setup(input);
@@ -96,7 +97,7 @@ public class Booster : MonoBehaviour
     if (!canBoost)
     {
       teste -= Time.deltaTime * 0.5f;
-      Gameui_Manager.instance.TurboOMetter(teste);
+      _gameui_Manager.TurboOMetter(teste);
     }
 
 

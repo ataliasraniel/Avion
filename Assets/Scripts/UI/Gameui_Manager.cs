@@ -7,7 +7,6 @@ using DG.Tweening;
 
 public class Gameui_Manager : MonoBehaviour
 {
-  public static Gameui_Manager instance;
 
   ///<<summary>>
   //este script cuidará de toda a UI do jogo: velocidade do avião
@@ -23,16 +22,14 @@ public class Gameui_Manager : MonoBehaviour
   public TextMeshProUGUI altCounter;
   public TextMeshProUGUI bulletCounter;
   public Slider turboSliderCounter;
-  private GameObject player;
+  public TextMeshProUGUI lifeCounter;
+  public GameObject player;
 
-  private void Awake()
-  {
-    instance = this;
-  }
+
 
   private void Start()
   {
-    player = GameObject.FindGameObjectWithTag("Player");
+    player = this.transform.parent.gameObject;
     turboSliderCounter.value = turboSliderCounter.maxValue;
   }
   public void ShowPopup(string messege)
@@ -61,6 +58,11 @@ public class Gameui_Manager : MonoBehaviour
   public void BulletCounter(float value)
   {
     bulletCounter.text = "<b>BULLETS:</b> " + value.ToString();
+  }
+  public void UpdateLife(float value, float max)
+  {
+    if (lifeCounter == null) return;
+    lifeCounter.text = "<b>LIFE:</b> " + value.ToString("F0") + " / " + max.ToString("F0");
   }
   #endregion
 }

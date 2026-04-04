@@ -296,7 +296,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e4bb6eda526225242943e95c864776d1, type: 2}
   - {fileID: 11400000, guid: 8d8e857bf53636b4e871ade7accab3a0, type: 2}
   - {fileID: 11400000, guid: eb2fb1fa804b9324290f620fc54c8c0e, type: 2}
-  - {fileID: 11400000, guid: 0abc4c69ee9f9e74cb03ddd15f06b18e, type: 2}
   selectorItemPrefab: {fileID: 2777909699954324003, guid: dc35ea2d0f5d9944b9e48125c602e0fb,
     type: 3}
   container: {fileID: 1193757365}
